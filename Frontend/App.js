@@ -6,7 +6,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import Home from "./components/Home";
 import DashBoard from "./components/DashBoard";
 import Test from "./components/Test";
-import Settings from "./components/Settings";
+import Operations from "./components/Operations";
 import Login from "./components/Login";
 
 const Tab = createBottomTabNavigator();
@@ -17,7 +17,7 @@ export default function App() {
       <Tab.Navigator>
         <Tab.Screen name="Home" component={Home} />
         <Tab.Screen name="DashBoard" component={DashBoard} />
-        <Tab.Screen name="Settings" component={Settings} />
+        <Tab.Screen name="Operations" component={Operations} />
         <Tab.Screen name="Test" component={Test} />
         <Tab.Screen name="Login" component={Login} />
       </Tab.Navigator>

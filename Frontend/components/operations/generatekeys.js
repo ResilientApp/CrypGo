@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
 
-const TestPage = () => {
+const GenerateKeys = () => {
   const [firstInput, setFirstInput] = useState('');
   const [secondInput, setSecondInput] = useState('');
   const [thirdInput, setThirdInput] = useState('');
@@ -134,4 +134,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TestPage;
+export default GenerateKeys;
