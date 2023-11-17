@@ -2,12 +2,33 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, StatusBar, Image } from 'react-native';
 
+  // Function to navigate to the "Test" screen
+  const goToLogin = () => {
+    navigation.navigate("Login"); // "Test" is the name of the screen in your Stack Navigator
+  };
+
+  const goToRegister = () => {
+    navigation.navigate("Register");
+  };
+
+   const goToCreateTransaction = () => {
+    navigation.navigate("Create Transaction");
+  }
+   
+  const goToAllTransactions = () => {
+    navigation.navigate("All Transactions");
+  }
 // Import your PNG logo (ensure the path is correct)
 const logoPng = require('/Users/rohan/Documents/GitHub/crypgo_Frontend/CrypGo/Frontend/assets/logo.png');
 
-const App = () => {
   return (
     <View style={styles.container}>
+      <Text>Home Screen</Text>
+      <Button title="Login" onPress={goToLogin} />
+      <Button title="Register" onPress= {goToRegister} />
+      <Button title="See all Transactions" onPress= {goToAllTransactions} />
+      <Button title="Create Transaction" onPress= {goToCreateTransaction} />
+      <Text> Sign out Button Comes here too </Text>
       <StatusBar barStyle="light-content" />
       <View style={styles.content}>
         {/* Use the Image component to render your logo */}

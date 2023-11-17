@@ -1,15 +1,12 @@
 import React from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native"; 
-import GenerateKeys from "./operations/generatekeys";
 
 function Operations() {
-  const navigation = useNavigation(); // Initialize the navigation hook
-
+  const navigation = useNavigation();
   const goToGenerateKeys = () => {
-    navigation.navigate(GenerateKeys); // Navigate to the "GenerateKeys" screen
-  };
-
+    navigation.navigate("Generate Keys");
+  } 
 
   return (
     <View style={styles.container}>
