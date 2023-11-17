@@ -6,14 +6,30 @@ function Home() {
   const navigation = useNavigation();
 
   // Function to navigate to the "Test" screen
-  const goToTestScreen = () => {
-    navigation.navigate("Test"); // "Test" is the name of the screen in your Stack Navigator
+  const goToLogin = () => {
+    navigation.navigate("Login"); // "Test" is the name of the screen in your Stack Navigator
   };
+
+  const goToRegister = () => {
+    navigation.navigate("Register");
+  };
+
+   const goToCreateTransaction = () => {
+    navigation.navigate("Create Transaction");
+  }
+   
+  const goToAllTransactions = () => {
+    navigation.navigate("All Transactions");
+  }
 
   return (
     <View style={styles.container}>
       <Text>Home Screen</Text>
-      <Button title="Go to Test" onPress={goToTestScreen} />
+      <Button title="Login" onPress={goToLogin} />
+      <Button title="Register" onPress= {goToRegister} />
+      <Button title="See all Transactions" onPress= {goToAllTransactions} />
+      <Button title="Create Transaction" onPress= {goToCreateTransaction} />
+      <Text> Sign out Button Comes here too </Text>
     </View>
   );
 }
