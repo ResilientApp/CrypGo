@@ -31,6 +31,10 @@ const Home = () => {
   const goToAllTransactions = () => {
     navigation.navigate("All Transactions");
   };
+
+  const goToHomePageTemp = () => {
+    navigation.navigate("HomePage Temp");
+  }
   // Import your PNG logo (ensure the path is correct)
   return (
     <View style={styles.container}>
@@ -47,6 +51,7 @@ const Home = () => {
         <Button title="Register" onPress={goToRegister} />
         <Button title="See all Transactions" onPress={goToAllTransactions} />
         <Button title="Create Transaction" onPress={goToCreateTransaction} />
+        <Button title= "HomePage Temp" onPress={goToHomePageTemp} />
 
         <TouchableOpacity style={styles.button}>
           <Text style={styles.buttonText}>Get Started</Text>
