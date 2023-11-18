@@ -14,6 +14,7 @@ import AllTransactions from "./components/operations/getalltransactions";
 import CreateTransaction from "./components/operations/settransactions";
 import UpdateTransaction from "./components/operations/updatetransaction";
 import GetTransaction from "./components/operations/gettransactions";
+import HomePageTemp from "./components/HomePageTemp";
 
 const Stack = createStackNavigator();
 
@@ -32,6 +33,7 @@ export default function App() {
         <Stack.Screen name="Get Transaction" component={GetTransaction} />
         <Stack.Screen name="Create Transaction" component={CreateTransaction} />
         <Stack.Screen name="Update Transaction" component={UpdateTransaction} />
+        <Stack.Screen name= "HomePage Temp" component={HomePageTemp} />
 
       </Stack.Navigator>
     </NavigationContainer>
