@@ -1,137 +1,134 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, StatusBar, SafeAreaView } from 'react-native';
 
-const UpdateTransactions = () => {
-  const [firstInput, setFirstInput] = useState('');
-  const [secondInput, setSecondInput] = useState('');
-  const [thirdInput, setThirdInput] = useState('');
-  const [foruthInput, setFourthInput] = useState('');
-  const [combinedInput, setCombinedInput] = useState('');
+const UpdateTransactionScreen = () => {
+  const [amount, setAmount] = useState('');
 
-  const handlePressA = () => {
-    // Combine the first two input values and set it to the last text input
-    setCombinedInput(firstInput + ' ' + secondInput);
+  const handlePressDigit = (digit) => {
+    setAmount((prevAmount) => prevAmount + digit);
   };
 
-  const handlePressB = async () => {
-    try {
-      const postData = JSON.stringify({
-        query: `mutation GenerateKeys {
-          generateKeys {
-            publicKey
-            privateKey
-          }
-        }`,
-        variables: {}
-      });
+  const handleBackspace = () => {
+    setAmount((prevAmount) => prevAmount.slice(0, -1));
+  };
 
-      const response = await fetch('https://cloud.resilientdb.com/graphql', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: postData,
-      });
+  const handleClear = () => {
+    setAmount('');
+  };
 
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
+  const handleCreatePress = () => {
+    console.log('Amount entered:', amount);
+    // Transaction creation logic goes here
+  };
 
-      const data = await response.json();
-      
-      // Assuming the response structure is like { data: { generateKeys: { publicKey, privateKey } } }
-      const { publicKey, privateKey } = data.data.generateKeys;
-
-      // Update state with the received data
-      setCombinedInput(`Public Key: ${publicKey}, Private Key: ${privateKey}`);
-    } catch (error) {
-      console.error('Error:', error);
-    }
+  // Render a single digit button for the numpad
+  const renderDigitButton = (digit) => {
+    return (
+      <TouchableOpacity
+        key={digit}
+        style={styles.digitButton}
+        onPress={() => handlePressDigit(digit.toString())}
+      >
+        <Text style={styles.digitText}>{digit}</Text>
+      </TouchableOpacity>
+    );
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Test Page</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Type here..."
-        onChangeText={setFirstInput}
-        value={firstInput}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Type here..."
-        onChangeText={setSecondInput}
-        value={secondInput}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Type here..."
-        onChangeText={setThirdInput}
-        value={thirdInput}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Type here..."
-        onChangeText={setFourthInput}
-        value={foruthInput}
-      />
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={[styles.button, styles.buttonA]} onPress={handlePressA}>
-          <Text>A</Text>
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="light-content" />
+      <Text style={styles.amountText}>{amount}</Text>
+      <View style={styles.numpad}>
+        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(renderDigitButton)}
+        {/* Clear button */}
+        <TouchableOpacity style={styles.digitButton} onPress={handleClear}>
+          <Text style={styles.functionText}>C</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.button, styles.buttonB]} onPress={handlePressB}>
-        <Text>B</Text>
-      </TouchableOpacity>
+        {/* Zero button */}
+        {renderDigitButton('0')}
+        {/* Backspace button */}
+        <TouchableOpacity style={styles.digitButton} onPress={handleBackspace}>
+          <Text style={styles.functionText}>⌫</Text>
+        </TouchableOpacity>
       </View>
-      <TextInput
-        style={styles.input}
-        placeholder="Results show here..."
-        value={combinedInput}
-        editable={false} // Make this TextInput read-only
-      />
-    </View>
+      <TouchableOpacity style={styles.createButton} onPress={handleCreatePress}>
+        <Text style={styles.buttonText}>Create</Text>
+      </TouchableOpacity>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'black',
+    backgroundColor: '#000',
     alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
+    paddingTop: StatusBar.currentHeight || 0,
+    
   },
   header: {
-    color: 'green',
+    marginBottom: 20,
+  },
+  headerText: {
     fontSize: 24,
+    fontWeight: 'bold',
+    color: '#fff',
+  },
+  amountText: {
+    fontSize: 32,
+    color: '#fff',
     marginBottom: 20,
   },
-  input: {
-    backgroundColor: 'white',
-    height: 50,
-    borderRadius: 10,
-    marginBottom: 10,
-    alignSelf: 'stretch',
-    paddingHorizontal: 10,
-  },
-  buttonContainer: {
+  numpad: {
+    borderRadius: 100,
     flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
     marginBottom: 20,
+    maxWidth: 300, // Set the max width for the numpad
   },
-  button: {
-    padding: 15,
-    borderRadius: 10,
-    marginHorizontal: 10,
+  digitButton: {
+    width: '33%', // Each button will take up one-third of the container width
+    paddingVertical: 20,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  buttonA: {
-    backgroundColor: 'darkgrey',
+  digitText: {
+    fontSize: 20,
+    color: '#000',
+    backgroundColor: '#fff',
+    width: 60, // Set a fixed width for the circular shape
+    height: 60, // Set a fixed height for the circular shape
+    textAlign: 'center',
+    lineHeight: 60, // Center the text vertically
+    borderRadius: 30, // Half of width and height to make it circular
+    overflow: 'hidden', // Ensure the background does not bleed outside the border radius
   },
-  buttonB: {
-    backgroundColor: 'grey',
+  functionText: {
+    fontSize: 23,
+    color: '#000',
+    backgroundColor: '#ddd', // A different background color for functional buttons
+    width: 60, // Set a fixed width for the circular shape
+    height: 60, // Set a fixed height for the circular shape
+    textAlign: 'center',
+    lineHeight: 60, // Center the text vertically
+    borderRadius: 30, // Half of width and height to make it circular
+    overflow: 'hidden', // Ensure the background does not bleed outside the border radius
+  },
+  createButton: {
+    borderRadius: 100,
+    backgroundColor: 'green',
+    borderRadius: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 30,
+    width: '80%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttonText: {
+    fontSize: 20,
+    color: '#fff',
   },
 });
 
-export default UpdateTransactions;
+export default UpdateTransactionScreen;

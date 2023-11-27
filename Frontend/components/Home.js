@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect }from "react";
 import {
   Button,
   Image,
@@ -12,9 +12,39 @@ import { useNavigation } from "@react-navigation/native";
 const logoPng = require(
   "../assets/logo.png",
 );
+import * as LocalAuthentication from 'expo-local-authentication';
 
 const Home = () => {
   // Function to navigate to the "Test" screen
+
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const authenticate = async () => {
+    const hasHardware = await LocalAuthentication.hasHardwareAsync();
+    if (!hasHardware) {
+      return alert("Your device doesn't support biometric authentication.");
+    }
+
+    const supportedMethods = await LocalAuthentication.supportedAuthenticationTypesAsync();
+    const savedBiometrics = await LocalAuthentication.isEnrolledAsync();
+    if (!savedBiometrics) {
+      return alert('No biometric data found. Please enroll your biometrics.');
+    }
+
+    const result = await LocalAuthentication.authenticateAsync();
+    if (result.success) {
+      setIsAuthenticated(true);
+    } else {
+      alert('Authentication failed. Please try again.');
+    }
+  };
+
+  // useEffect hook to call authenticate when the component mounts
+  useEffect(() => {
+    authenticate();
+  }, []); // The empty dependency array ensures this runs only once when the component mounts
+
+
   const navigation = useNavigation();
   const goToLogin = () => {
     navigation.navigate("Login"); // "Test" is the name of the screen in your Stack Navigator
