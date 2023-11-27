@@ -99,6 +99,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 20,
+    
     color: '#fff',
     // Add more styling to match your screenshot
   },
