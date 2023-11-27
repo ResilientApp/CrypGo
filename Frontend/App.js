@@ -1,7 +1,7 @@
 
 import React from "react";
 import { StyleSheet } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, DarkTheme } from "@react-navigation/native";
 import Home from "./components/Home";
 import DashBoard from "./components/DashBoard";
 import Test from "./components/Test";
@@ -17,10 +17,11 @@ import GetTransaction from "./components/operations/gettransactions";
 import HomePageTemp from "./components/HomePageTemp";
 
 const Stack = createStackNavigator();
+export const ThemeContext = React.createContext();
 
 export default function App() {
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={DarkTheme}>
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="DashBoard" component={DashBoard} />
