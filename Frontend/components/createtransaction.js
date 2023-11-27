@@ -1,14 +1,27 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, TouchableOpacity, StatusBar, SafeAreaView } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, StatusBar, SafeAreaView, TextInput } from 'react-native';
 
 const CreateTransactionScreen = () => {
   const [amount, setAmount] = useState('');
 
-  const handleCreatePress = () => {
-    // Handle the create button press
-    console.log('Amount entered:', amount);
-    // You would typically handle the transaction creation logic here
+  const handlePressDigit = (digit) => {
+    setAmount((prevAmount) => prevAmount + digit);
   };
+
+  const handleBackspace = () => {
+    setAmount((prevAmount) => prevAmount.slice(0, -1));
+  };
+
+  const handleClear = () => {
+    setAmount('');
+  };
+
+  const handleCreatePress = () => {
+    console.log('Amount entered:', amount);
+    // Transaction creation logic goes here
+  };
+
+  // ... renderDigitButton function remains the same ...
 
   return (
     <SafeAreaView style={styles.container}>
@@ -16,14 +29,27 @@ const CreateTransactionScreen = () => {
       <View style={styles.header}>
         <Text style={styles.headerText}>Create Transaction</Text>
       </View>
-      <TextInput
-        style={styles.input}
-        onChangeText={setAmount}
-        value={amount}
-        placeholder="Enter Amount"
-        keyboardType="numeric"
-      />
-      <TouchableOpacity style={styles.button} onPress={handleCreatePress}>
+      <View style={styles.mainContent}>
+        <TextInput 
+          style={styles.inputBox} 
+          value={amount} 
+          editable={false} // Make it non-editable; the input comes from the numpad
+          placeholderTextColor="#ddd" 
+          placeholder="Enter amount"
+        />
+        {/* ... Numpad and Create Button goes here ... */}
+      </View>
+      <View style={styles.numpad}>
+        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(renderDigitButton)}
+        <TouchableOpacity style={styles.digitButton} onPress={handleClear}>
+          <Text style={styles.functionText}>C</Text>
+        </TouchableOpacity>
+        {renderDigitButton('0')}
+        <TouchableOpacity style={styles.digitButton} onPress={handleBackspace}>
+          <Text style={styles.functionText}>⌫</Text>
+        </TouchableOpacity>
+      </View>
+      <TouchableOpacity style={styles.createButton} onPress={handleCreatePress}>
         <Text style={styles.buttonText}>Create</Text>
       </TouchableOpacity>
     </SafeAreaView>
@@ -33,12 +59,17 @@ const CreateTransactionScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000', // Assuming a black background
+    backgroundColor: '#000',
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: 'space-between', // Adjust to space out the header, main content, and numpad
   },
   header: {
-    marginTop: 60, // Add proper margin for header
+    marginTop: 20, // Add proper margin for header
+  },
+  mainContent: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   headerText: {
     fontSize: 24,
@@ -46,14 +77,15 @@ const styles = StyleSheet.create({
     color: '#fff',
     // Add more styling to match your screenshot
   },
-  input: {
-    backgroundColor: '#fff', // White background for the input
-    borderRadius: 20, // Rounded corners for the input
-    fontSize: 16,
-    padding: 15,
-    marginTop: 30, // Space from the header
-    width: '80%', // Input width
-    // Add more styling to match your screenshot
+  inputBox: {
+    backgroundColor: 'grey', // Dark grey background
+    color: '#fff', // White text color
+    fontSize: 20,
+    width: '80%',
+    borderRadius: 10,
+    padding: 10,
+    textAlign: 'center',
+    marginBottom: 20, // Space above the numpad
   },
   button: {
     marginTop: 30, // Space from the input
