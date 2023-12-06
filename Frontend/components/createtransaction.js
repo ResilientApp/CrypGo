@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, StatusBar, SafeAreaView, TextInput } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, StatusBar, SafeAreaView } from 'react-native';
 
 const CreateTransactionScreen = () => {
   const [amount, setAmount] = useState('');
@@ -21,36 +21,41 @@ const CreateTransactionScreen = () => {
     // Transaction creation logic goes here
   };
 
-  // ... renderDigitButton function remains the same ...
+  // Render a single digit button for the numpad
+  const renderDigitButton = (digit) => {
+    return (
+      <TouchableOpacity
+        key={digit}
+        style={styles.digitButton}
+        onPress={() => handlePressDigit(digit.toString())}
+      >
+        <Text style={styles.digitText}>{digit}</Text>
+      </TouchableOpacity>
+    );
+  };
 
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
-      <View style={styles.header}>
-        <Text style={styles.headerText}>Create Transaction</Text>
-      </View>
-      <View style={styles.mainContent}>
-        <TextInput 
-          style={styles.inputBox} 
-          value={amount} 
-          editable={false} // Make it non-editable; the input comes from the numpad
-          placeholderTextColor="#ddd" 
-          placeholder="Enter amount"
-        />
-        {/* ... Numpad and Create Button goes here ... */}
+      <Text style={styles.titleText}>Create Transaction</Text>
+      <View style={styles.inputContainer}>
+        <Text style={styles.inputText}>{amount}</Text>
       </View>
       <View style={styles.numpad}>
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(renderDigitButton)}
-        <TouchableOpacity style={styles.digitButton} onPress={handleClear}>
-          <Text style={styles.functionText}>C</Text>
-        </TouchableOpacity>
-        {renderDigitButton('0')}
-        <TouchableOpacity style={styles.digitButton} onPress={handleBackspace}>
-          <Text style={styles.functionText}>⌫</Text>
-        </TouchableOpacity>
+        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 'C', 0, '⌫'].map((digit) =>
+          digit === 'C' ?
+          <TouchableOpacity key={digit} style={styles.digitButton} onPress={handleClear}>
+            <Text style={styles.digitText}>{digit}</Text>
+          </TouchableOpacity> :
+          digit === '⌫' ?
+          <TouchableOpacity key={digit} style={styles.digitButton} onPress={handleBackspace}>
+            <Text style={styles.digitText}>{digit}</Text>
+          </TouchableOpacity> :
+          renderDigitButton(digit)
+        )}
       </View>
       <TouchableOpacity style={styles.createButton} onPress={handleCreatePress}>
-        <Text style={styles.buttonText}>Create</Text>
+        <Text style={styles.createButtonText}>Create Transaction</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );
@@ -61,47 +66,62 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#000',
     alignItems: 'center',
-    justifyContent: 'space-between', // Adjust to space out the header, main content, and numpad
+    justifyContent: 'space-between',
+    paddingVertical: 20,
   },
-  header: {
-    marginTop: 20, // Add proper margin for header
-  },
-  mainContent: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  headerText: {
+  titleText: {
+    color: '#fff',
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#fff',
-    // Add more styling to match your screenshot
+    marginTop: 20,
   },
-  inputBox: {
-    backgroundColor: 'grey', // Dark grey background
-    color: '#fff', // White text color
-    fontSize: 20,
+  inputContainer: {
+    backgroundColor: 'darkgrey',
     width: '80%',
-    borderRadius: 10,
-    padding: 10,
-    textAlign: 'center',
-    marginBottom: 20, // Space above the numpad
+    borderRadius: 5,
+    padding: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 20,
   },
-  button: {
-    marginTop: 30, // Space from the input
-    backgroundColor: 'green', // Use the correct shade of green
-    borderRadius: 20, // Rounded corners for the button
-    paddingVertical: 10,
-    paddingHorizontal: 30,
-    width: '80%', // Button width
-    alignItems: 'center', // Center the text inside the button
-    // Add more styling to match your screenshot
-  },
-  buttonText: {
-    fontSize: 20,
-    
+  inputText: {
     color: '#fff',
-    // Add more styling to match your screenshot
+    fontSize: 20,
+  },
+  numpad: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    marginBottom: 20,
+    width: '100%',
+  },
+  digitButton: {
+    width: '30%',
+    aspectRatio: 1,
+    margin: 5,
+    backgroundColor: 'grey',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 50, // This will make the buttons rounded
+  },
+  digitText: {
+    color: '#fff',
+    fontSize: 24,
+  },
+  createButton: {
+    backgroundColor: 'green',
+    borderRadius: 30,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    width: '80%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  createButtonText: {
+    color: '#fff',
+    fontSize: 20,
+    fontWeight: 'bold',
   },
 });
 
