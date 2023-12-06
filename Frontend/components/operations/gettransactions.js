@@ -1,137 +1,182 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
+import React, { useEffect, useState } from "react";
+import { View, Text, StyleSheet, ActivityIndicator, TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
-const GetTransaction = () => {
-  const [firstInput, setFirstInput] = useState('');
-  const [secondInput, setSecondInput] = useState('');
-  const [thirdInput, setThirdInput] = useState('');
-  const [foruthInput, setFourthInput] = useState('');
-  const [combinedInput, setCombinedInput] = useState('');
+const GetTransactionPage = ({ route }) => {
+  const { transactionID } = route.params;
+  const [transactionData, setTransactionData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const navigation = useNavigation();
 
-  const handlePressA = () => {
-    // Combine the first two input values and set it to the last text input
-    setCombinedInput(firstInput + ' ' + secondInput);
+  const goToUpdateTransactions = () => {
+    navigation.navigate("Update Transaction", { transactionID: transactionData.id });
   };
 
-  const handlePressB = async () => {
-    try {
-      const postData = JSON.stringify({
-        query: `mutation GenerateKeys {
-          generateKeys {
-            publicKey
-            privateKey
-          }
-        }`,
-        variables: {}
-      });
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const postData = JSON.stringify({
+          query: `
+            query GetTransaction {
+              getTransaction(id: "${transactionID}") {
+                id
+                version
+                amount
+                uri
+                type
+                publicKey
+                operation
+                metadata
+                asset
+              }
+            }
+          `,
+        });
 
-      const response = await fetch('https://cloud.resilientdb.com/graphql', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: postData,
-      });
+        const response = await fetch("https://cloud.resilientdb.com/graphql", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: postData,
+        });
 
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (!data || !data.data || !data.data.getTransaction) {
+          // Handle the case where the expected data structure is not received
+          console.error("Invalid GraphQL response:", data);
+          return;
+        }
+
+        const receivedData = data.data.getTransaction;
+
+        const assetData = JSON.parse(
+          receivedData.asset.replace(/'/g, '"')
+        ).data;
+
+        const formattedTransaction = {
+          id: receivedData.id,
+          version: receivedData.version,
+          amount: receivedData.amount,
+          uri: receivedData.uri,
+          type: receivedData.type,
+          publicKey: receivedData.publicKey,
+          operation: receivedData.operation,
+          metadata: receivedData.metadata,
+          asset: assetData,
+        };
+        // console.log(formattedTransaction);
+        setTransactionData(formattedTransaction);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
       }
+    };
 
-      const data = await response.json();
-      
-      // Assuming the response structure is like { data: { generateKeys: { publicKey, privateKey } } }
-      const { publicKey, privateKey } = data.data.generateKeys;
+    fetchData();
+  }, [transactionID]);
 
-      // Update state with the received data
-      setCombinedInput(`Public Key: ${publicKey}, Private Key: ${privateKey}`);
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  };
+  if (loading) {
+    // Display loading screen while data is being fetched
+    return (
+      <View style={[styles.container, styles.loadingContainer]}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Test Page</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Type here..."
-        onChangeText={setFirstInput}
-        value={firstInput}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Type here..."
-        onChangeText={setSecondInput}
-        value={secondInput}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Type here..."
-        onChangeText={setThirdInput}
-        value={thirdInput}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Type here..."
-        onChangeText={setFourthInput}
-        value={foruthInput}
-      />
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={[styles.button, styles.buttonA]} onPress={handlePressA}>
-          <Text>A</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.button, styles.buttonB]} onPress={handlePressB}>
-        <Text>B</Text>
-      </TouchableOpacity>
+      <Text style={styles.header}>Transaction Details</Text>
+      <View style={styles.textContainer}>
+        <Text style={styles.label}>ID:</Text>
+        <Text style={styles.value}>{transactionData.id}</Text>
       </View>
-      <TextInput
-        style={styles.input}
-        placeholder="Results show here..."
-        value={combinedInput}
-        editable={false} // Make this TextInput read-only
-      />
+      <View style={styles.textContainer}>
+        <Text style={styles.label}>Version:</Text>
+        <Text style={styles.value}>{transactionData.version}</Text>
+      </View>
+      <View style={styles.textContainer}>
+        <Text style={styles.label}>Amount:</Text>
+        <Text style={styles.value}>{transactionData.amount}</Text>
+      </View>
+      <View style={styles.textContainer}>
+        <Text style={styles.label}>URI:</Text>
+        <Text style={styles.value}>{transactionData.uri}</Text>
+      </View>
+      <View style={styles.textContainer}>
+        <Text style={styles.label}>Type:</Text>
+        <Text style={styles.value}>{transactionData.type}</Text>
+      </View>
+      <View style={styles.textContainer}>
+        <Text style={styles.label}>Public Key:</Text>
+        <Text style={styles.value}>{transactionData.publicKey}</Text>
+      </View>
+      <View style={styles.textContainer}>
+        <Text style={styles.label}>Operation:</Text>
+        <Text style={styles.value}>{transactionData.operation}</Text>
+      </View>
+      <View style={styles.textContainer}>
+        <Text style={styles.label}>Metadata:</Text>
+        <Text style={styles.value}>{transactionData.metadata || "N/A"}</Text>
+      </View>
+      <View style={styles.textContainer}>
+        <Text style={styles.label}>Asset Time:</Text>
+        <Text style={styles.value}>{transactionData.asset.time}</Text>
+      </View>
+      <TouchableOpacity onPress={goToUpdateTransactions} style={styles.button}>
+        <Text style={styles.buttonText}>Update Transaction</Text>
+      </TouchableOpacity>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  ccontainer: {
     flex: 1,
-    backgroundColor: 'black',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
+    padding: 16,
+    backgroundColor: '#000000', // Set background color to black
   },
   header: {
-    color: 'green',
     fontSize: 24,
-    marginBottom: 20,
+    fontWeight: 'bold',
+    marginBottom: 16,
+    color: '#FFFFFF', // Set header text color to white
   },
-  input: {
-    backgroundColor: 'white',
-    height: 50,
-    borderRadius: 10,
-    marginBottom: 10,
-    alignSelf: 'stretch',
-    paddingHorizontal: 10,
-  },
-  buttonContainer: {
+  textContainer: {
     flexDirection: 'row',
-    marginBottom: 20,
+    marginBottom: 8,
+  },
+  label: {
+    flex: 1,
+    fontWeight: 'bold',
+    marginRight: 8,
+    color: '#FFFFFF', // Set label text color to white
+  },
+  value: {
+    flex: 2,
+    color: '#CCCCCC', // Set value text color to grey
+  },
+  loadingText: {
+    color: "white", // Set text color for the loading indicator (if needed)
   },
   button: {
-    padding: 15,
-    borderRadius: 10,
-    marginHorizontal: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
+    marginTop: 16,
+    backgroundColor: "#3498db", // Set button background color
+    padding: 10,
+    borderRadius: 5,
+    alignItems: "center",
   },
-  buttonA: {
-    backgroundColor: 'darkgrey',
-  },
-  buttonB: {
-    backgroundColor: 'grey',
+  buttonText: {
+    color: "#ffffff", // Set button text color
+    fontSize: 16,
   },
 });
 
-export default GetTransaction;
+export default GetTransactionPage;

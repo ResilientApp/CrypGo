@@ -11,12 +11,15 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import logo from "../../assets/logo.png";
+import { useKey } from "./keyContext";
 
 function Operations() {
   const navigation = useNavigation();
   const [transactions, setTransactions] = useState([]); // Add this line to create a state variable
+  const { publicKey, privateKey } = useKey();
+
   const goToUpdateTransactions = () => {
-    navigation.navigate("Update Transaction");
+    navigation.navigate("Update Transaction", { transactionID: transaction.transactionID });
   };
 
   const goToGetTransaction = () => {
@@ -24,8 +27,10 @@ function Operations() {
   };
 
   const handleTransactionPress = (transaction) => {
-    // Handle the press event for a transaction (e.g., navigate to a details screen)
-    console.log("Transaction pressed:", transaction);
+
+
+    // Redirect to the "Get Transaction" page with the transactionID
+    navigation.navigate("Get Transaction", { transactionID: transaction.transactionID });
   };
 
   const renderItem = ({ item }) => (
@@ -48,7 +53,7 @@ function Operations() {
         const postData = JSON.stringify({
           query: `
               query { getFilteredTransactions(filter: {
-                ownerPublicKey: ""
+                ownerPublicKey: "${publicKey}"
                 recipientPublicKey: ""
               }) {
               id
@@ -100,6 +105,8 @@ function Operations() {
 
         //console.log(transactions);
         // Set the transactions state with the new data
+        console.log("Public Key: ", publicKey);
+        console.log("Transactions: " ,transactions);
         setTransactions(transactions);
       } catch (error) {
         console.error(error);
@@ -117,14 +124,12 @@ function Operations() {
         <Button title="Get Transaction" onPress={goToGetTransaction} />
       </View> */
       }
-      <ScrollView>
         {/* Rest of your components */}
         <FlatList
           data={transactions}
           keyExtractor={(item) => item.id.toString()}
           renderItem={renderItem}
         />
-      </ScrollView>
     </>
   );
 }
