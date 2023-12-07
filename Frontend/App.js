@@ -1,6 +1,8 @@
-import React from "react";
-import { StyleSheet } from "react-native";
+
 import { NavigationContainer, DarkTheme } from "@react-navigation/native";
+import React, { useState, useEffect } from 'react';
+import {Alert, Button, StyleSheet, View, Text, TouchableOpacity, SafeAreaView, TextInput } from 'react-native';
+import * as SplashScreen from 'expo-splash-screen';
 import Home from "./components/Home";
 import DashBoard from "./components/DashBoard";
 import Test from "./components/Test";
@@ -15,12 +17,45 @@ import UpdateTransaction from "./components/operations/updatetransaction";
 import GetTransaction from "./components/operations/gettransactions";
 import HomePageTemp from "./components/HomePageTemp";
 import { KeyProvider } from "./components/operations/keyContext";
+import * as Font from 'expo-font';
+import AppLoading from 'expo-app-loading';
+
+SplashScreen.preventAutoHideAsync();
 
 const Stack = createStackNavigator();
 export const ThemeContext = React.createContext();
 
+const getFonts=() =>
+Font.loadAsync({
+Actor_400Regular: require('./assets/fonts/Actor-Regular.otf'),
+PalanquinDark: require('./assets/fonts/PalanquinDark-Regular.otf'),
+DarkerGrotesque: require('./assets/fonts/DarkerGrotesque-Regular.ttf'),
+ClashDisplay: require('./assets/fonts/ClashDisplay-Regular.otf')
+});
+
 export default function App() {
   const [user, setUser] = React.useState(null);
+  const [fontsloaded, setFontsLoaded] = useState(false);
+
+  
+  useEffect(() => {
+    async function loadResourcesAndDataAsync() {
+      try {
+        await getFonts();
+      } catch (e) {
+        // We might want to provide this error information to an error reporting service
+        console.warn(e);
+      } finally {
+        setFontsLoaded(true);
+        await SplashScreen.hideAsync();
+      }
+    }
+
+    loadResourcesAndDataAsync();
+  }, []);
+  if (!fontsloaded) {
+    return null;
+  } else {
 
   return (
     <KeyProvider>
@@ -53,6 +88,7 @@ export default function App() {
         </NavigationContainer>
     </KeyProvider>
   );
+}
 }
 
 const styles = StyleSheet.create({

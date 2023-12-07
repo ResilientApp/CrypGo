@@ -1,69 +1,51 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, TouchableOpacity, StatusBar, SafeAreaView } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, StatusBar, SafeAreaView } from 'react-native';
 import { useKey } from "./operations/keyContext";
 
 
 const CreateTransactionScreen = () => {
   const [amount, setAmount] = useState('');
+
+  const handlePressDigit = (digit) => {
+    setAmount((prevAmount) => prevAmount + digit);
+  };
+
+  const handleBackspace = () => {
+    setAmount((prevAmount) => prevAmount.slice(0, -1));
+  };
+
+  const handleClear = () => {
+    setAmount('');
+  };
   const { publicKey, privateKey } = useKey();
 
   const handleCreatePress = () => {
-    // Handle the create button press
     console.log('Amount entered:', amount);
-    console.log('Public Key', publicKey);
-
-    // You can replace this with your GraphQL endpoint
-    const apiUrl = 'https://cloud.resilientdb.com/graphql';
-
-    const postData = {
-      query: `mutation {
-        postTransaction(data: {
-          operation: "CREATE",
-          amount: ${Number(amount)}, // Convert amount to number
-          signerPublicKey: "${publicKey}",
-          signerPrivateKey: "${privateKey}",
-          recipientPublicKey: "ECJksQuF9UWi3DPCYvQqJPjF6BqSbXrnDiXUjdiVvkyH",
-          asset: "{\"data\": {\"time\": 1690881023169 }}"
-        }) {
-          id
-        }
-      }`,
-      variables: {}
-    };
-
-    fetch(apiUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(postData),
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log('Transaction response:', data);
-        // Handle the response data as needed
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        // Handle errors
-      });
+    // You would typically handle the transaction creation logic here
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
-      <View style={styles.header}>
-        <Text style={styles.headerText}>Create Transaction</Text>
+      <Text style={styles.titleText}>Create Transaction</Text>
+      <View style={styles.inputContainer}>
+        <Text style={styles.inputText}>{amount}</Text>
       </View>
-      <TextInput
-        style={styles.input}
-        onChangeText={setAmount}
-        value={amount}
-        placeholder="Enter Amount"
-        keyboardType="numeric"
-      />
-      <TouchableOpacity style={styles.button} onPress={handleCreatePress}>
-        <Text style={styles.buttonText}>Create</Text>
+      <View style={styles.numpad}>
+        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 'C', 0, '⌫'].map((digit) =>
+          digit === 'C' ?
+          <TouchableOpacity key={digit} style={styles.digitButton} onPress={handleClear}>
+            <Text style={styles.digitText}>{digit}</Text>
+          </TouchableOpacity> :
+          digit === '⌫' ?
+          <TouchableOpacity key={digit} style={styles.digitButton} onPress={handleBackspace}>
+            <Text style={styles.digitText}>{digit}</Text>
+          </TouchableOpacity> :
+          renderDigitButton(digit)
+        )}
+      </View>
+      <TouchableOpacity style={styles.createButton} onPress={handleCreatePress}>
+        <Text style={styles.createButtonText}>Create Transaction</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );
@@ -72,42 +54,64 @@ const CreateTransactionScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000', // Assuming a black background
+    backgroundColor: '#000',
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: 'space-between',
+    paddingVertical: 20,
   },
-  header: {
-    marginTop: 60, // Add proper margin for header
-  },
-  headerText: {
+  titleText: {
+    color: '#fff',
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#fff',
-    // Add more styling to match your screenshot
+    marginTop: 20,
   },
-  input: {
-    backgroundColor: '#fff', // White background for the input
-    borderRadius: 20, // Rounded corners for the input
-    fontSize: 16,
+  inputContainer: {
+    backgroundColor: 'darkgrey',
+    width: '80%',
+    borderRadius: 5,
     padding: 15,
-    marginTop: 30, // Space from the header
-    width: '80%', // Input width
-    // Add more styling to match your screenshot
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 20,
   },
-  button: {
-    marginTop: 30, // Space from the input
-    backgroundColor: 'green', // Use the correct shade of green
-    borderRadius: 20, // Rounded corners for the button
-    paddingVertical: 10,
-    paddingHorizontal: 30,
-    width: '80%', // Button width
-    alignItems: 'center', // Center the text inside the button
-    // Add more styling to match your screenshot
-  },
-  buttonText: {
-    fontSize: 20,
+  inputText: {
     color: '#fff',
-    // Add more styling to match your screenshot
+    fontSize: 20,
+  },
+  numpad: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    marginBottom: 20,
+    width: '100%',
+  },
+  digitButton: {
+    width: '30%',
+    aspectRatio: 1,
+    margin: 5,
+    backgroundColor: 'grey',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 50, // This will make the buttons rounded
+  },
+  digitText: {
+    color: '#fff',
+    fontSize: 24,
+  },
+  createButton: {
+    backgroundColor: 'green',
+    borderRadius: 30,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    width: '80%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  createButtonText: {
+    color: '#fff',
+    fontSize: 20,
+    fontWeight: 'bold',
   },
 });
 

@@ -7,6 +7,8 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Alert,
+ 
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 const logoPng = require(
@@ -15,6 +17,10 @@ const logoPng = require(
 import * as LocalAuthentication from 'expo-local-authentication';
 
 const Home = () => {
+    // useEffect hook to call authenticate when the component mounts
+    useEffect(() => {
+      authenticate();
+    }, []); // The empty dependency array ensures this runs only once when the component mounts
   // Function to navigate to the "Test" screen
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -22,7 +28,8 @@ const Home = () => {
   const authenticate = async () => {
     const hasHardware = await LocalAuthentication.hasHardwareAsync();
     if (!hasHardware) {
-      return alert("Your device doesn't support biometric authentication.");
+      alert("Your device doesn't support biometric authentication.");
+      return;
     }
 
     const supportedMethods = await LocalAuthentication.supportedAuthenticationTypesAsync();
@@ -39,10 +46,7 @@ const Home = () => {
     }
   };
 
-  // useEffect hook to call authenticate when the component mounts
-  useEffect(() => {
-    authenticate();
-  }, []); // The empty dependency array ensures this runs only once when the component mounts
+
 
 
   const navigation = useNavigation();
