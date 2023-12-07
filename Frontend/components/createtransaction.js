@@ -1,13 +1,52 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, TextInput, TouchableOpacity, StatusBar, SafeAreaView } from 'react-native';
+import { useKey } from "./operations/keyContext";
+
 
 const CreateTransactionScreen = () => {
   const [amount, setAmount] = useState('');
+  const { publicKey, privateKey } = useKey();
 
   const handleCreatePress = () => {
     // Handle the create button press
     console.log('Amount entered:', amount);
-    // You would typically handle the transaction creation logic here
+    console.log('Public Key', publicKey);
+
+    // You can replace this with your GraphQL endpoint
+    const apiUrl = 'https://cloud.resilientdb.com/graphql';
+
+    const postData = {
+      query: `mutation {
+        postTransaction(data: {
+          operation: "CREATE",
+          amount: ${Number(amount)}, // Convert amount to number
+          signerPublicKey: "${publicKey}",
+          signerPrivateKey: "${privateKey}",
+          recipientPublicKey: "ECJksQuF9UWi3DPCYvQqJPjF6BqSbXrnDiXUjdiVvkyH",
+          asset: "{\"data\": {\"time\": 1690881023169 }}"
+        }) {
+          id
+        }
+      }`,
+      variables: {}
+    };
+
+    fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(postData),
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Transaction response:', data);
+        // Handle the response data as needed
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        // Handle errors
+      });
   };
 
   return (
