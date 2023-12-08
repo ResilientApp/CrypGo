@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView, TextInput} from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView, TextInput, Alert} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import AppLoading from 'expo-app-loading';
 import * as Font from 'expo-font';
 import { useKey } from "../operations/keyContext";
 import Entypo from '@expo/vector-icons/Entypo';
+import { useNavigation } from "@react-navigation/native";
 import * as SplashScreen from 'expo-splash-screen';
 
 // Keep the splash screen visible while we fetch resources
@@ -22,6 +23,7 @@ const fetchFonts = () => {
 
 
 const CreateTransaction = () => {
+  const navigation = useNavigation();
   const [appIsReady, setAppIsReady] = useState(false);
   const [amount, setAmount] = useState("");
   const { publicKey, privateKey } = useKey();
@@ -76,6 +78,21 @@ const CreateTransaction = () => {
       .then((data) => {
         console.log("Transaction response:", data);
         // Handle the response data as needed
+        // Check if the transaction was successful
+      if (data.errors) {
+        // If there are errors, show an error alert
+        Alert.alert("Error", "Failed to create transaction. Please try again.");
+      } else {
+        // If there are no errors, show a success alert
+        Alert.alert("Success", "Transaction created successfully!",
+        [
+          {
+            text: "OK",
+            onPress: () => navigation.navigate("HomePage Temp"),
+          },
+        ],
+        { cancelable: false });
+      }
       })
       .catch((error) => {
         console.error("Error:", error);

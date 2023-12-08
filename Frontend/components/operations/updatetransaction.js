@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView, TextInput} from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView, TextInput, Alert} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import AppLoading from 'expo-app-loading';
 import * as Font from 'expo-font';
+import { useNavigation } from "@react-navigation/native";
 
 const fetchFonts = () => {
   return Font.loadAsync({
@@ -15,6 +16,7 @@ const fetchFonts = () => {
 import { useKey } from "./keyContext";
 
 const UpdateTransactionScreen = ({ route }) => {
+  const navigation = useNavigation();
   const [fontsLoaded, setFontsLoaded] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const { transactionID } = route.params;
@@ -77,6 +79,21 @@ const UpdateTransactionScreen = ({ route }) => {
       .then((data) => {
         console.log("Transaction response:", data);
         // Handle the response data as needed
+        if (data.errors) {
+          // If there are errors, show an error alert
+          Alert.alert("Error", "Failed to update transaction. Please try again.");
+        } else {
+          // If there are no errors, show a success alert
+          Alert.alert("Success", "Transaction updated successfully!",
+          [
+            {
+              text: "OK",
+              onPress: () => navigation.navigate("HomePage Temp"),
+            },
+          ],
+          { cancelable: false });
+          
+        }
       })
       .catch((error) => {
         console.error("Error:", error);

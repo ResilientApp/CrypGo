@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@expo-google-fonts/actor": "^0.2.3",
-    "@react-native-async-storage/async-storage": "^1.19.8",
+    "@react-native-async-storage/async-storage": "1.18.2",
     "@react-navigation/bottom-tabs": "^6.5.11",
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/stack": "^6.3.20",

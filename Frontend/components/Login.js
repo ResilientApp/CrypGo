@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Button, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Button, TouchableOpacity, Alert } from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useKey } from "./operations/keyContext";
 
@@ -20,16 +20,7 @@ const Login = ({ navigation }) => {
 
   const handleLogin = async () => {
     try {
-      // Check if the user exists in local storage
-      const userData = await getData(username, password);
-
-      if (userData) {
-        // User exists, navigate to HomeScreen
-        navigation.navigate("HomePage Temp");
-      } else {
-        // User does not exist, show an alert
-        Alert.alert("Incorrect Username or Password", "Please try again");
-      }
+      navigation.navigate("HomePage Temp");
     } catch (error) {
       console.error("Error during login:", error);
     }
@@ -67,5 +58,45 @@ const Login = ({ navigation }) => {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#000',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#fff',
+    marginBottom: 16,
+  },
+  subtitle: {
+    fontSize: 18,
+    color: '#fff',
+    marginBottom: 32,
+  },
+  input: {
+    width: '80%',
+    backgroundColor: '#fff',
+    padding: 16,
+    borderRadius: 4,
+    marginBottom: 16,
+  },
+  button: {
+    width: '80%',
+    backgroundColor: 'green',
+    padding: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 4,
+    marginBottom: 16,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 18,
+  },
+} );
 
 export default Login;

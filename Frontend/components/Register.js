@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import { useKey } from './operations/keyContext';
-
+import { LinearGradient } from 'expo-linear-gradient';
 
 const Register = ({ navigation }) => {
   const [username, setUsername] = useState('');
@@ -60,11 +60,15 @@ const Register = ({ navigation }) => {
           autoCapitalize="none"
         />
       </View>
-
-      {/* Transparent Button */}
-      <TouchableOpacity style={[styles.transparentButton, styles.button]} onPress={handleRegister}>
-        <Text style={styles.buttonText}>Register</Text>
-      </TouchableOpacity>
+      <LinearGradient
+      colors={['#32cd32','#228b22']}
+      style={{width: '80%',justifyContent: 'center',alignItems: 'center',paddingVertical: 10,borderRadius: 20,marginBottom: 20,}}
+      >
+        
+        <TouchableOpacity onPress={handleRegister}>
+        <Text style={styles.createButtonText}>Register</Text>
+        </TouchableOpacity>
+      </LinearGradient>
     </View>
   );
 };
@@ -123,6 +127,12 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#fff',
     fontSize: 18,
+  },
+  createButtonText: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+    fontFamily: "Actor_400Regular"
   },
 });
 
