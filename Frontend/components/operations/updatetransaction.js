@@ -12,27 +12,14 @@ const fetchFonts = () => {
     'ClashDisplay': require('../../assets/fonts/ClashDisplay-Regular.otf')
   });
 };
-
-import React, { useState } from "react";
-import {
-  StyleSheet,
-  View,
-  Text,
-  TouchableOpacity,
-  StatusBar,
-  SafeAreaView,
-} from "react-native";
 import { useKey } from "./keyContext";
 
-const UpdateTransactionScreen = () => {
-
+const UpdateTransactionScreen = ({ route }) => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
   const [inputValue, setInputValue] = useState('');
-const UpdateTransactionScreen = ({ route }) => {
   const { transactionID } = route.params;
   const [amount, setAmount] = useState("");
   const { publicKey, privateKey } = useKey();
-  
 
   // Handle number press
   const handleNumberPress = (number) => {
@@ -44,8 +31,6 @@ const UpdateTransactionScreen = ({ route }) => {
     setInputValue((prevInputValue) => prevInputValue.slice(0, -1));
   };
 
-  const handleClear = () => {
-    setAmount("");
   // Handle clear press
   const handleClearPress = () => {
     setInputValue('');
@@ -53,7 +38,7 @@ const UpdateTransactionScreen = ({ route }) => {
 
   // Create transaction press
   const handleCreatePress = () => {
-    console.log("Amount entered:", amount);
+    console.log("Amount entered:", inputValue);
     // You can replace this with your GraphQL endpoint
     const apiUrl = "https://cloud.resilientdb.com/graphql";
 
@@ -61,7 +46,7 @@ const UpdateTransactionScreen = ({ route }) => {
       query: ` mutation { updateTransaction(data:{
         id: "${transactionID}"
         operation: ""
-        amount: ${amount}
+        amount: ${inputValue}
         signerPublicKey: "${publicKey}"
         signerPrivateKey: "${privateKey}"
         recipientPublicKey: "ECJksQuF9UWi3DPCYvQqJPjF6BqSbXrnDiXUjdiVvkyH"

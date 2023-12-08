@@ -1,48 +1,5 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, Button, TouchableOpacity } from 'react-native';
-
-const LoginScreen = ({ navigation }) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-
-  const handleLogin = () => {
-    // Here you would usually send a request to your Node.js server
-    // For the purpose of this example, we'll just log the credentials
-    console.log('Login with:', username, password);
-      // Regular expression to validate the email format
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    
-      // Validate if the username is in the correct email format
-      if (emailRegex.test(username)) {
-        // If the email is valid, proceed with the login
-        // TODO: Send a request to your Node.js server to validate the credentials
-    
-        // Navigate to the HomeScreen if the login is successful
-        navigation.navigate('Home');
-      } else {
-        // If the email is not valid, alert the user
-        alert('Please enter a valid email address.');
-      }
-    // TODO: Implement login logic
-    navigation.navigate('Home');
-  };
-
-  const handleForgotPassword = () => {
-    // Here you would handle the forgot password logic or navigation
-    console.log('Forgot password');
-    // TODO: Implement forgot password logic
-  };
-  
-
-import React, { useState } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  StyleSheet,
-  Button,
-  TouchableOpacity,
-} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useKey } from "./operations/keyContext";
 
@@ -56,9 +13,7 @@ const getData = async (username, password) => {
   }
 };
 
-
-
-const LoginScreen = ({ navigation }) => {
+const Login = ({ navigation }) => {
   const { publicKey, privateKey } = useKey();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");

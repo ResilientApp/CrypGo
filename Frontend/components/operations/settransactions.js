@@ -1,8 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView, TextInput} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import AppLoading from 'expo-app-loading';
 import * as Font from 'expo-font';
+import { useKey } from "../operations/keyContext";
+import Entypo from '@expo/vector-icons/Entypo';
+import * as SplashScreen from 'expo-splash-screen';
+
+// Keep the splash screen visible while we fetch resources
+SplashScreen.preventAutoHideAsync();
+
 
 const fetchFonts = () => {
   return Font.loadAsync({
@@ -14,33 +21,15 @@ const fetchFonts = () => {
 };
 
 
-const CreateTransactionScreen = () => {
-
+const CreateTransaction = () => {
+  const [appIsReady, setAppIsReady] = useState(false);
+  const [amount, setAmount] = useState("");
+  const { publicKey, privateKey } = useKey();
   const [fontsLoaded, setFontsLoaded] = useState(false);
   const [inputValue, setInputValue] = useState('');
 
-  // Handle number press
-  const handleNumberPress = (number) => {
-    setInputValue((prevInputValue) => `${prevInputValue}${number}`);
-import React, { useState } from "react";
-import {
-  SafeAreaView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useKey } from "../operations/keyContext";
-
-
-const UpdateTransactionScreen = () => {
-  const [amount, setAmount] = useState("");
-  const { publicKey, privateKey } = useKey();
-
-  const handlePressDigit = (digit) => {
-    setAmount((prevAmount) => prevAmount + digit);
+  const handleNumberPress = (digit) => {
+    setInputValue((prevAmount) => prevAmount + digit);
   };
 
   // Handle delete press
@@ -51,22 +40,19 @@ const UpdateTransactionScreen = () => {
   // Handle clear press
   const handleClearPress = () => {
     setInputValue('');
-  const handleClear = () => {
-    setAmount("");
-  };
-
+  }
   // Create transaction press
   const handleCreatePress = () => {
-    console.log("Amount entered:", amount);
+    console.log("Amount entered:", inputValue);
     // You can replace this with your GraphQL endpoint
     const apiUrl = "https://cloud.resilientdb.com/graphql";
 
     const postData = {
       query: ` mutation { postTransaction(data: {
                 operation: "CREATE"
-                amount: ${amount}
-                signerPublicKey: "${publicKey}",
-                signerPrivateKey: "${privateKey}",
+                amount: ${inputValue}
+                signerPublicKey: "${publicKey}"
+                signerPrivateKey: "${privateKey}"
                 recipientPublicKey: "ECJksQuF9UWi3DPCYvQqJPjF6BqSbXrnDiXUjdiVvkyH"
                 asset: """{
             "data": { "time": 1690881023169
@@ -102,12 +88,37 @@ const UpdateTransactionScreen = () => {
   //   return null;
   // }
   useEffect(() => {
-    fetchFonts().then(() => setFontsLoaded(true));
+    async function prepare() {
+      try {
+        // Pre-load fonts, make any API calls you need to do here
+        await Font.loadAsync(Entypo.font);
+      } catch (e) {
+        console.warn(e);
+      } finally {
+        // Tell the application to render
+        setAppIsReady(true);
+      }
+    }
+
+    prepare();
   }, []);
 
-  if (!fontsLoaded) {
-    return <AppLoading />;
+  const onLayoutRootView = useCallback(async () => {
+    if (appIsReady) {
+      // This tells the splash screen to hide immediately! If we call this after
+      // `setAppIsReady`, then we may see a blank screen while the app is
+      // loading its initial state and rendering its first pixels. So instead,
+      // we hide the splash screen once we know the root view has already
+      // performed layout.
+      await SplashScreen.hideAsync();
+    }
+  }, [appIsReady]);
+
+  if (!appIsReady) {
+    return null;
   }
+
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Create Transaction</Text>
@@ -211,4 +222,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CreateTransactionScreen;
+export default CreateTransaction;
