@@ -4,6 +4,13 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { SvgXml } from "react-native-svg";
 import setButton from "../assets/testHome/setButton.svg";
 import getButton from "../assets/testHome/getButton.svg";
+import set from "../assets/testHome/set.svg";
+import sett from "../assets/testHome/set.png";
+import all from "../assets/testHome/all.svg";
+import alll from "../assets/testHome/all.png";
+import check from "../assets/testHome/checkmark.svg";
+import settings from "../assets/testHome/settings.svg";
+import logout from "../assets/testHome/logout.svg";
 import { useNavigation } from "@react-navigation/native";
 import * as LocalAuthentication from 'expo-local-authentication';
 
@@ -12,18 +19,17 @@ function HomePageTemp() {
 
   // Function to navigate to the "Test" screen
   const goToAllTransactions = () => {
-    navigation.navigate("All Transactions"); // "Test" is the name of the screen in your Stack Navigator
+    navigation.navigate("All Transactions");
   };
 
   // Function to handle logout
   const handleLogout = () => {
     navigation.navigate("Login")
-    // You may also want to navigate to the login screen or perform any other actions after signing out
   };
 
   // Function to navigate to the "Test" screen
   const goToCreateTransactions = () => {
-    navigation.navigate("Create Transaction"); // "Test" is the name of the screen in your Stack Navigator
+    navigation.navigate("Create Transaction"); 
   };
 
   useEffect(() => {
@@ -32,9 +38,6 @@ function HomePageTemp() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.logoutContainer}>
-        <Text style={styles.logout} onPress={handleLogout}>Log Out</Text>
-      </View>
       <View>
         <Text style={styles.title}>HOME</Text>
         <Text style={styles.subtitle}>Your Dashboard</Text>
@@ -44,24 +47,31 @@ function HomePageTemp() {
           source={require('../assets/testHome/moneyy.png')}
         />
       </View>
-      <LinearGradient
-      colors={['#32cd32','#228b22']}
-      style={{width: '80%',justifyContent: 'center',alignItems: 'center',paddingVertical: 10,borderRadius: 20,marginBottom: 20,}}
-      >
-        
-        <TouchableOpacity onPress={goToAllTransactions}>
-        <Text style={styles.createButtonText}> View All Transactions</Text>
-        </TouchableOpacity>
-      </LinearGradient>
-      <LinearGradient
-      colors={['#32cd32','#228b22']}
-      style={{width: '80%',justifyContent: 'center',alignItems: 'center',paddingVertical: 10,borderRadius: 20,marginBottom: 20,}}
-      >
-        
-        <TouchableOpacity onPress={goToCreateTransactions}>
-        <Text style={styles.createButtonText}>Create Transaction</Text>
-        </TouchableOpacity>
-      </LinearGradient>
+
+      <View style={styles.subcontainer}>
+        <View style={styles.subsubcontainer}>
+          <TouchableOpacity style={styles.button} onPress={() => goToAllTransactions()}>
+              {/* <SvgXml xml={all} onPress={goToTestScreen}/> */}
+              <Image
+                source={require('../assets/testHome/all.png') }
+              />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={() => goToCreateTransactions()}>
+            <Image
+              source={require('../assets/testHome/set.png')}
+            />
+            {/* <SvgXml xml={set} onPress={goToTestScreen}/> */}
+          </TouchableOpacity>
+        </View>
+        <View style={styles.subsubcontainer}>
+          <View style={styles.button}>
+              <SvgXml xml={settings}/>
+          </View>
+          <View style={styles.button}>
+              <SvgXml xml={logout} onPress={handleLogout}/>
+          </View>
+        </View>
+      </View>
     </View>
   );
 }
@@ -79,8 +89,18 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontWeight: 'bold',
     color: '#fff',
+    marginBottom: 0,
+    marginTop: '10%',
+    textAlign: 'center',
+  },
+  img: {
+    marginTop: '-15%',
+  },
+  subtitle: {
+    fontSize: 20,
+    color: '#fff',
     marginBottom: 16,
-    marginTop: '30%',
+    marginTop: '0%',
     textAlign: 'center',
   },
   subcontainer: {
@@ -88,10 +108,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'column',
+    marginVertical: "-1%",
+  },
+  subsubcontainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    marginVertical: "2%",
   },
   button: {
     alignItems: "center",
     justifyContent: "center",
+    marginVertical: "12%",
+    marginHorizontal: "3%",
+    marginTop: "-10%",
   },
   logoutContainer: {
     position: 'absolute',
@@ -102,11 +133,5 @@ const styles = StyleSheet.create({
   logout: {
     fontSize: 17,
     color: '#fff',
-  },
-  createButtonText: {
-    color: 'white',
-    fontSize: 18,
-    fontWeight: 'bold',
-    fontFamily: "Actor_400Regular"
   },
 })
