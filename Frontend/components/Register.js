@@ -5,12 +5,12 @@ import { useKey } from './operations/keyContext';
 
 const fetchFonts = () => {
   return Font.loadAsync({
-  Actor_400Regular: require('../assets/fonts/Actor-Regular.otf'),
-  PalanquinDark: require('../assets/fonts/PalanquinDark-Regular.otf'),
-  DarkerGrotesque: require('../assets/fonts/DarkerGrotesque-Regular.ttf'),
-  ClashDisplay: require('../assets/fonts/ClashDisplay-Regular.otf'),
-  Mulish:require('../assets/fonts/Mulish-Regular.ttf')
-});
+    'Actor_400Regular': require('../assets/fonts/Actor-Regular.otf'),
+    'PalanquinDark': require('../assets/fonts/PalanquinDark-Regular.otf'),
+    'DarkerGrotesque': require('../assets/fonts/DarkerGrotesque-Regular.ttf'),
+    'ClashDisplay': require('../assets/fonts/ClashDisplay-Regular.otf'),
+    'Mulish':require('../assets/fonts/Mulish-Regular.ttf')
+  });
 }
 const RegisterScreen = ({navigation}) => {
   const { generateKeys } = useKey();

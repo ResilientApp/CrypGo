@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, ActivityIndicator, TouchableOpacity,  Image  } from "react-native";
+import { View, Text, StyleSheet, ActivityIndicator, TouchableOpacity,  Image, Pressable  } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { SvgXml } from "react-native-svg";
 import InfoIcon from "../../assets/testHome/Info.svg";
 import MoneyIcon from "../../assets/testHome/Money_Bag.svg";
 import TimeIcon from "../../assets/testHome/ic_event.svg";
 import * as Font from 'expo-font';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const fetchFonts = () => {
   return Font.loadAsync({
@@ -139,9 +140,14 @@ const GetTransactionPage = ({ route }) => {
         <Text style={styles.transactionDetailText}>{transactionData.asset.time}</Text>
         </View>
       </View>
+      <LinearGradient
+      colors={['#32cd32','#228b22']}
+      style={{width: '80%',justifyContent: 'center',alignItems: 'center',paddingVertical: 10,borderRadius: 20,marginBottom: 20,}}
+      >
       <TouchableOpacity onPress={goToUpdateTransactions} style={styles.button}>
         <Text style={styles.buttonText}>Update Transaction</Text>
       </TouchableOpacity>
+      </LinearGradient>
     </View>
   );
 };
@@ -212,16 +218,18 @@ const styles = StyleSheet.create({
   loadingText: {
     color: "white", // Set text color for the loading indicator (if needed)
   },
-  button: {
-    marginTop: 16,
-    backgroundColor: "#3498db", // Set button background color
-    padding: 10,
-    borderRadius: 5,
-    alignItems: "center",
-  },
+  // button: {
+  //   marginTop: 16,
+  //   backgroundColor: "#3498db", // Set button background color
+  //   padding: 10,
+  //   borderRadius: 5,
+  //   alignItems: "center",
+  // },
   buttonText: {
-    color: "#ffffff", // Set button text color
-    fontSize: 16,
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+    fontFamily: "Actor_400Regular"
   },
 
 });
