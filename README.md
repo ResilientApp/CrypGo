@@ -13,22 +13,8 @@ CrypGo is a mobile app crafted with React Native, serving as a wallet for the Gl
 ## 3. The Technology Innovation
 CrypGo represents significant technological innovation by leveraging React Native to create a mobile iteration of ResVault. This allows users to access their ResDB account seamlessly from their smartphones, irrespective of their preferred platform. API calls facilitated by Postman connect directly to https://cloud.resilientdb.com/graphql, offering a convenient solution for managing digital assets "On the Go."
 
-**Technical Objectives:**
-1. **Secured Ledger on the Go:** Enable users to access a secure ledger on their mobile devices, ensuring their digital assets are protected.
-2. **Convenience:** Offer a convenient and user-friendly interface for users to engage with ResilientDB effortlessly.
-3. **Cross-Platform Compatibility:** Ensure the mobile app is accessible on both Android and iOS.
-4. **Blockchain Integration:** Integrate ResilientDB into the mobile app, allowing seamless interaction with the sustainable blockchain fabric.
-5. **Multi-User Capability:** Enable multiple users to access and manage their accounts on the same device.
-6. **Push Notifications:** Implement push notifications to keep users updated on their latest transactions and account activity in real time.
-7. **Touch ID (Biometric Authentication):** Integrate biometric authentication, such as Touch ID, to enhance security and user convenience.
-
-## 6. The Company and Team
-Meet the passionate and dynamic team behind CrypGo:
-- **Toniya:** The Innovator with boundless enthusiasm.
-- **Roshini:** The Mastermind with an ironclad determination.
-- **Rohan:** The All-Knowing Oracle with a glass half empty but filled with ingenious solutions.
-- **Shubhada:** Our Designer, Developer, and Dangerously talented artist.
-- **Manoj Elango:** Our Captain and Professional Procrastinator, steering the ship with a steady hand.
+## 4. How Does CrypGo work
+CrypGo connects to the cloud instance of ResilientDB which is running the KV service, Crow HTTP server and the ResilientDB GraphQL directory.
 
 ## Ways to Contribute
 
@@ -54,27 +40,32 @@ Meet the passionate and dynamic team behind CrypGo:
 ## Getting Started
 
 To contribute to CrypGo, follow these steps:
-
 1. Fork the CrypGo repository to your GitHub account.
 2. Clone the forked repository to your local machine.
    ```bash
    git clone https://github.com/your-username/CrypGo.git
    cd CrypGo
    ```
-3. Create a new branch for your contribution.
+3. Use this command to run the repository
+   ```
+   npm i
+   npx expo start
+   ```
+   After you've made changes to the app
+4. Create a new branch for your contribution.
    ```bash
    git checkout -b feature-or-fix-branch
    ```
-4. Make your changes and commit them.
+5. Make your changes and commit them.
    ```bash
    git add .
    git commit -m "Your commit message"
    ```
-5. Push your changes to your GitHub repository.
+6. Push your changes to your GitHub repository.
    ```bash
    git push origin feature-or-fix-branch
    ```
-6. Open a pull request on the main CrypGo repository.
+7. Open a pull request on the main CrypGo repository.
 
 ## Thank You!
 
