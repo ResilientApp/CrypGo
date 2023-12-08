@@ -1,18 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState,  useEffect, useCallback  } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import AppLoading from 'expo-app-loading';
 import { useKey } from './operations/keyContext';
+import * as Font from 'expo-font';
+import Entypo from '@expo/vector-icons/Entypo';
+import { useNavigation } from "@react-navigation/native";
+import * as SplashScreen from 'expo-splash-screen';
 
-const fetchFonts = () => {
-  return Font.loadAsync({
-    'Actor_400Regular': require('../assets/fonts/Actor-Regular.otf'),
-    'PalanquinDark': require('../assets/fonts/PalanquinDark-Regular.otf'),
-    'DarkerGrotesque': require('../assets/fonts/DarkerGrotesque-Regular.ttf'),
-    'ClashDisplay': require('../assets/fonts/ClashDisplay-Regular.otf'),
-    'Mulish':require('../assets/fonts/Mulish-Regular.ttf')
-  });
-}
-const RegisterScreen = ({navigation}) => {
+
+
+
+// Keep the splash screen visible while we fetch resources
+SplashScreen.preventAutoHideAsync();
+
+const RegisterScreen = () => {
+  const navigation = useNavigation();
+  const [appIsReady, setAppIsReady] = useState(false);
+  const [fontsLoaded, setFontsLoaded] = useState(false);
   const { generateKeys } = useKey();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -26,6 +31,35 @@ const RegisterScreen = ({navigation}) => {
       generateKeys();
       navigation.navigate('HomePage Temp');
   };
+  useEffect(() => {
+    async function prepare() {
+      try {
+        // Pre-load fonts, make any API calls you need to do here
+        await Font.loadAsync(Entypo.font);
+      } catch (e) {
+        console.warn(e);
+      } finally {
+        // Tell the application to render
+        setAppIsReady(true);
+      }
+    }
+
+    prepare();
+  }, []);
+  const onLayoutRootView = useCallback(async () => {
+    if (appIsReady) {
+      // This tells the splash screen to hide immediately! If we call this after
+      // `setAppIsReady`, then we may see a blank screen while the app is
+      // loading its initial state and rendering its first pixels. So instead,
+      // we hide the splash screen once we know the root view has already
+      // performed layout.
+      await SplashScreen.hideAsync();
+    }
+  }, [appIsReady]);
+
+  if (!appIsReady) {
+    return null;
+  }
 
   return (
     <View style={styles.container}>
@@ -99,7 +133,7 @@ const styles = StyleSheet.create({
     width: '80%',
     height: 50,
     backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    borderColor: '#00DDFF',
+    borderColor: '#fffaf0',
     borderWidth: 1,
     borderRadius: 5,
     paddingHorizontal: 24,
