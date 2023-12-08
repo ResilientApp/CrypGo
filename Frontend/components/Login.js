@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     fontWeight: '800',
     color: '#fff',
     marginBottom: 24,
-    fontFamily: 'PalaquinDark'
+    fontFamily: 'PalanquinDark'
   },
   subtitle: {
     fontSize: 25,

@@ -9,7 +9,14 @@ import { useNavigation } from "@react-navigation/native";
 import * as SplashScreen from 'expo-splash-screen';
 
 
-
+const fetchFonts = () => {
+  return Font.loadAsync({
+    'Actor_400Regular': require('../assets/fonts/Actor-Regular.otf'),
+    'PalanquinDark': require('../assets/fonts/PalanquinDark-Regular.otf'),
+    'DarkerGrotesque': require('../assets/fonts/DarkerGrotesque-Regular.ttf'),
+    'ClashDisplay': require('../assets/fonts/ClashDisplay-Regular.otf')
+  });
+};
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
@@ -121,7 +128,7 @@ const styles = StyleSheet.create({
     letterSpacing: 8,
     color: '#fff',
     marginBottom: 24,
-    fontFamily: 'PalaquinDark'
+    fontFamily: 'PalanquinDark'
   },
   subtitle: {
     fontSize: 25,
