@@ -27,10 +27,11 @@ export const ThemeContext = React.createContext();
 
 const getFonts=() =>
 Font.loadAsync({
-Actor_400Regular: require('./assets/fonts/Actor-Regular.otf'),
-PalanquinDark: require('./assets/fonts/PalanquinDark-Regular.otf'),
-DarkerGrotesque: require('./assets/fonts/DarkerGrotesque-Regular.ttf'),
-ClashDisplay: require('./assets/fonts/ClashDisplay-Regular.otf')
+  'Actor_400Regular': require('./assets/fonts/Actor-Regular.otf'),
+  'PalanquinDark': require('./assets/fonts/PalanquinDark-Regular.otf'),
+  'DarkerGrotesque': require('./assets/fonts/DarkerGrotesque-Regular.ttf'),
+  'ClashDisplay': require('./assets/fonts/ClashDisplay-Regular.otf'),
+  'Mulish':require('./assets/fonts/Mulish-Regular.ttf')
 });
 
 export default function App() {

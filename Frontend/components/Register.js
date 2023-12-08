@@ -1,13 +1,27 @@
-import React, { useContext, useState } from 'react';
+import React, { useState,  useEffect, useCallback  } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
-import { useKey } from './operations/keyContext';
 import { LinearGradient } from 'expo-linear-gradient';
+import AppLoading from 'expo-app-loading';
+import { useKey } from './operations/keyContext';
+import * as Font from 'expo-font';
+import Entypo from '@expo/vector-icons/Entypo';
+import { useNavigation } from "@react-navigation/native";
+import * as SplashScreen from 'expo-splash-screen';
 
-const Register = ({ navigation }) => {
+
+
+
+// Keep the splash screen visible while we fetch resources
+SplashScreen.preventAutoHideAsync();
+
+const RegisterScreen = () => {
+  const navigation = useNavigation();
+  const [appIsReady, setAppIsReady] = useState(false);
+  const [fontsLoaded, setFontsLoaded] = useState(false);
+  const { generateKeys } = useKey();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const { generateKeys } = useKey();
 
   const handleRegister = () => {
     if (password !== confirmPassword) {
@@ -17,123 +31,122 @@ const Register = ({ navigation }) => {
       generateKeys();
       navigation.navigate('HomePage Temp');
   };
+  useEffect(() => {
+    async function prepare() {
+      try {
+        // Pre-load fonts, make any API calls you need to do here
+        await Font.loadAsync(Entypo.font);
+      } catch (e) {
+        console.warn(e);
+      } finally {
+        // Tell the application to render
+        setAppIsReady(true);
+      }
+    }
+
+    prepare();
+  }, []);
+  const onLayoutRootView = useCallback(async () => {
+    if (appIsReady) {
+      // This tells the splash screen to hide immediately! If we call this after
+      // `setAppIsReady`, then we may see a blank screen while the app is
+      // loading its initial state and rendering its first pixels. So instead,
+      // we hide the splash screen once we know the root view has already
+      // performed layout.
+      await SplashScreen.hideAsync();
+    }
+  }, [appIsReady]);
+
+  if (!appIsReady) {
+    return null;
+  }
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>REGISTER</Text>
       <Text style={styles.subtitle}>Enter Your Details</Text>
 
-      {/* Username input with label */}
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Username</Text>
-        <TextInput
-          style={[styles.input, styles.transparentInput]}
-          onChangeText={setUsername}
-          value={username}
-          placeholder="Enter your username"
-          autoCapitalize="none"
-        />
-      </View>
+      <TextInput
+        style={styles.input}
+        onChangeText={setUsername}
+        value={username}
+        placeholder="Enter the username"
+        placeholderTextColor="#aaaaaa"
+        autoCapitalize="none"
+      />
 
-      {/* Password input with label */}
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Password</Text>
-        <TextInput
-          style={[styles.input, styles.transparentInput]}
-          onChangeText={setPassword}
-          value={password}
-          placeholder="Enter your password"
-          secureTextEntry
-          autoCapitalize="none"
-        />
-      </View>
+      <TextInput
+        style={styles.input}
+        onChangeText={setPassword}
+        value={password}
+        placeholder="Create Password"
+        placeholderTextColor="#aaaaaa"
+        secureTextEntry
+        autoCapitalize="none"
+      />
 
-      {/* Confirm Password input with label */}
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Confirm Password</Text>
-        <TextInput
-          style={[styles.input, styles.transparentInput]}
-          onChangeText={setConfirmPassword}
-          value={confirmPassword}
-          placeholder="Confirm your password"
-          secureTextEntry
-          autoCapitalize="none"
-        />
-      </View>
+      <TextInput
+        style={styles.input}
+        onChangeText={setConfirmPassword}
+        value={confirmPassword}
+        placeholder="Confirm Password"
+        placeholderTextColor="#aaaaaa"
+        secureTextEntry
+        autoCapitalize="none"
+      />
+
       <LinearGradient
       colors={['#32cd32','#228b22']}
-      style={{width: '80%',justifyContent: 'center',alignItems: 'center',paddingVertical: 10,borderRadius: 20,marginBottom: 20,}}
+      style={{width: '80%',justifyContent: 'center',alignItems: 'center',paddingVertical: 10,borderRadius: 20,marginBottom: 20, marginTop: 30}}
       >
-        
         <TouchableOpacity onPress={handleRegister}>
-        <Text style={styles.createButtonText}>Register</Text>
+          <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
       </LinearGradient>
     </View>
   );
 };
 
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: '#000',
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
+    fontSize: 40,
+    fontWeight: '800',
+    letterSpacing: 8,
     color: '#fff',
-    marginBottom: 16,
+    marginBottom: 24,
+    fontFamily: 'PalaquinDark'
   },
   subtitle: {
-    fontSize: 18,
+    fontSize: 25,
     color: '#fff',
-    marginBottom: 32,
+    marginBottom: 48,
+    fontFamily: 'DarkerGrotesque'
   },
-  inputContainer: {
-    marginBottom: 16,
-    width: '80%', // Set the width of the input container
-  },
-  label: {
-    color: '#fff',
-    marginBottom: 8,
-  },
-  
-  // Updated styles for the input
   input: {
-    width: '100%', // Set the width of the input to 100%
-    padding: 16,
-    borderRadius: 20,
-    marginBottom: 16,
-    color: '#fff',
-    borderWidth: 2, // Add this line to set the border width
-    borderColor: '#fff', // Add this line to set the border color
-  },
-  button: {
-    backgroundColor: '#64F441',
-  },
-  transparentButton: {
-    backgroundColor: 'transparent',
-    borderWidth: 2,
-    borderColor: '#fff',
     width: '80%',
-    padding: 16,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 20,
-    marginBottom: 16,
-  },
-  buttonText: {
+    height: 50,
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    borderColor: '#fffaf0',
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingHorizontal: 24,
+    fontSize: 16,
     color: '#fff',
-    fontSize: 18,
+    marginBottom: 24,
   },
-  createButtonText: {
-    color: 'white',
+
+  buttonText: {
     fontSize: 18,
+    color: '#fff',
     fontWeight: 'bold',
-    fontFamily: "Actor_400Regular"
   },
 });
 
-export default Register;
+export default RegisterScreen;

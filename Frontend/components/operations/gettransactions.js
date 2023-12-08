@@ -1,13 +1,29 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, ActivityIndicator, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, ActivityIndicator, TouchableOpacity,  Image, Pressable  } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { SvgXml } from "react-native-svg";
+import InfoIcon from "../../assets/testHome/Info.svg";
+import MoneyIcon from "../../assets/testHome/Money_Bag.svg";
+import TimeIcon from "../../assets/testHome/ic_event.svg";
+import * as Font from 'expo-font';
+import { LinearGradient } from 'expo-linear-gradient';
+
+const fetchFonts = () => {
+  return Font.loadAsync({
+    'Actor_400Regular': require('../../assets/fonts/Actor-Regular.otf'),
+    'PalanquinDark': require('../../assets/fonts/PalanquinDark-Regular.otf'),
+    'DarkerGrotesque': require('../../assets/fonts/DarkerGrotesque-Regular.ttf'),
+    'ClashDisplay': require('../../assets/fonts/ClashDisplay-Regular.otf'),
+    'Mulish':require('../../assets/fonts/Mulish-Regular.ttf')
+  });
+};
 
 const GetTransactionPage = ({ route }) => {
   const { transactionID } = route.params;
   const [transactionData, setTransactionData] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
-
+  const IconPlaceholder = ({ style }) => <View style={[styles.iconPlaceholder, style]} />;
   const goToUpdateTransactions = () => {
     navigation.navigate("Update Transaction", { transactionID: transactionData.id });
   };
@@ -93,65 +109,101 @@ const GetTransactionPage = ({ route }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Transaction Details</Text>
-      <View style={styles.textContainer}>
-        <Text style={styles.label}>ID:</Text>
-        <Text style={styles.value}>{transactionData.id}</Text>
+      <Text style={styles.header}>View Transactions</Text>
+
+      <View style={styles.transactionItem}>
+          <View style={styles.transactionTextContainer}>
+           <View style={styles.imageStyle}>
+            <SvgXml xml={InfoIcon}/>
+           </View>
+           <Text style={styles.transactionText}>Transaction ID</Text>
+           <Text style={styles.transactionDetailText}>{transactionData.id}</Text>
+          </View>
       </View>
-      <View style={styles.textContainer}>
-        <Text style={styles.label}>Version:</Text>
-        <Text style={styles.value}>{transactionData.version}</Text>
+
+      <View style={styles.transactionItem}>
+        <View style={styles.transactionTextContainer}>
+           <View style={styles.imageStyle}>
+            <SvgXml xml={MoneyIcon}/>
+           </View>
+        <Text style={styles.transactionText}>Amount</Text>
+        <Text style={styles.transactionDetailText}>{transactionData.amount}</Text>
+        </View>
       </View>
-      <View style={styles.textContainer}>
-        <Text style={styles.label}>Amount:</Text>
-        <Text style={styles.value}>{transactionData.amount}</Text>
+
+      <View style={styles.transactionItem}>
+        <View style={styles.transactionTextContainer}>
+           <View style={styles.imageStyle}>
+            <SvgXml xml={TimeIcon}/>
+           </View>
+        <Text style={styles.transactionText}>Time Created</Text>
+        <Text style={styles.transactionDetailText}>{transactionData.asset.time}</Text>
+        </View>
       </View>
-      <View style={styles.textContainer}>
-        <Text style={styles.label}>URI:</Text>
-        <Text style={styles.value}>{transactionData.uri}</Text>
-      </View>
-      <View style={styles.textContainer}>
-        <Text style={styles.label}>Type:</Text>
-        <Text style={styles.value}>{transactionData.type}</Text>
-      </View>
-      <View style={styles.textContainer}>
-        <Text style={styles.label}>Public Key:</Text>
-        <Text style={styles.value}>{transactionData.publicKey}</Text>
-      </View>
-      <View style={styles.textContainer}>
-        <Text style={styles.label}>Operation:</Text>
-        <Text style={styles.value}>{transactionData.operation}</Text>
-      </View>
-      <View style={styles.textContainer}>
-        <Text style={styles.label}>Metadata:</Text>
-        <Text style={styles.value}>{transactionData.metadata || "N/A"}</Text>
-      </View>
-      <View style={styles.textContainer}>
-        <Text style={styles.label}>Asset Time:</Text>
-        <Text style={styles.value}>{transactionData.asset.time}</Text>
-      </View>
+      <LinearGradient
+      colors={['#32cd32','#228b22']}
+      style={{width: '80%',justifyContent: 'center',alignItems: 'center',paddingVertical: 10,borderRadius: 20,marginBottom: 20,}}
+      >
       <TouchableOpacity onPress={goToUpdateTransactions} style={styles.button}>
         <Text style={styles.buttonText}>Update Transaction</Text>
       </TouchableOpacity>
+      </LinearGradient>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  ccontainer: {
+  container: {
     flex: 1,
-    padding: 16,
-    backgroundColor: '#000000', // Set background color to black
+    backgroundColor: '#000',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   header: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 16,
-    color: '#FFFFFF', // Set header text color to white
+    fontSize: 30,
+    letterSpacing: 1.5,
+    color: '#fff',
+    marginBottom: 30,
+    fontWeight:'900',
+    fontFamily: 'PalanquinDark'
   },
   textContainer: {
     flexDirection: 'row',
     marginBottom: 8,
+  },
+  transactionItem: {
+    backgroundColor: '#333',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 14,
+    borderRadius: 9,
+    marginBottom: 20,
+    width: '99%',
+    height: '20%'
+  },
+  transactionTextContainer: {
+    
+    flex: 1,
+  },
+  transactionText: {
+    alignSelf:'stretch',
+    fontSize: 16,
+    color: '#fff',
+    marginBottom: 4,
+  },
+  transactionDetailText: {
+    paddingTop:25,
+    fontSize: 14,
+    color: '#fff',
+    flexWrap:'wrap',
+    color: '#adff2f'
+  },
+  imageStyle:{
+    alignSelf:'flex-end',
+    width: '15%',
+    height: '15%'
   },
   label: {
     flex: 1,
@@ -166,17 +218,20 @@ const styles = StyleSheet.create({
   loadingText: {
     color: "white", // Set text color for the loading indicator (if needed)
   },
-  button: {
-    marginTop: 16,
-    backgroundColor: "#3498db", // Set button background color
-    padding: 10,
-    borderRadius: 5,
-    alignItems: "center",
-  },
+  // button: {
+  //   marginTop: 16,
+  //   backgroundColor: "#3498db", // Set button background color
+  //   padding: 10,
+  //   borderRadius: 5,
+  //   alignItems: "center",
+  // },
   buttonText: {
-    color: "#ffffff", // Set button text color
-    fontSize: 16,
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+    fontFamily: "Actor_400Regular"
   },
+
 });
 
 export default GetTransactionPage;
