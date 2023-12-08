@@ -10,33 +10,22 @@ import settings from "../assets/testHome/settings.svg";
 import logout from "../assets/testHome/logout.svg";
 import { useNavigation } from "@react-navigation/native";
 
-function HomePageTemp() {
+function Login() {
   const navigation = useNavigation();
 
   // Function to navigate to the "Test" screen
-  const goToAllTransactions = () => {
-    navigation.navigate("All Transactions"); // "Test" is the name of the screen in your Stack Navigator
+  const goToTestScreen = () => {
+    navigation.navigate("Test"); // "Test" is the name of the screen in your Stack Navigator
   };
-
-  // Function to handle logout
-  const handleLogout = () => {
-    navigation.navigate("Login")
-    // You may also want to navigate to the login screen or perform any other actions after signing out
-  };
-
-  // Function to navigate to the "Test" screen
-  const goToCreateTransactions = () => {
-    navigation.navigate("Create Transaction"); // "Test" is the name of the screen in your Stack Navigator
-  };
-
 
   return (
     <View style={styles.container}>
+      {/* <View style={styles.logoutContainer}>
+        <Text style={styles.logout}>Log Out</Text>
+      </View> */}
       <View>
         <Text style={styles.title}>HOME</Text>
         <Text style={styles.subtitle}>Your Dashboard</Text>
-      <View style={styles.logoutContainer}>
-        <Text style={styles.logout} onPress={handleLogout}>Log Out</Text>
       </View>
       <View style={styles.img}> 
         <Image
@@ -51,6 +40,7 @@ function HomePageTemp() {
               <Image
                 source={require('../assets/testHome/all.png')}
               />
+
           </View>
           <View style={styles.button}>
             <Image
@@ -66,18 +56,13 @@ function HomePageTemp() {
           <View style={styles.button}>
               <SvgXml xml={logout} onPress={goToTestScreen}/>
           </View>
-        <View style={styles.button}>
-          <SvgXml xml={getButton} onPress={goToAllTransactions}/>
-        </View>
-        <View style={styles.button}>
-          <SvgXml xml={setButton} onPress={goToCreateTransactions}/>
         </View>
       </View>
     </View>
   );
 }
 
-export default HomePageTemp;
+export default Login;
 
 const styles = StyleSheet.create({
   container: {
@@ -91,11 +76,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#fff',
     marginBottom: 0,
-    marginTop: '20%',
+    marginTop: '10%',
     textAlign: 'center',
   },
   img: {
-    marginTop: '-10%',
+    marginTop: '-15%',
   },
   subtitle: {
     fontSize: 20,
@@ -109,14 +94,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'column',
-    marginVertical: "6%",
+    marginVertical: "-1%",
   },
   subsubcontainer: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
-    marginVertical: "12%",
+    marginVertical: "2%",
   },
   button: {
     alignItems: "center",
