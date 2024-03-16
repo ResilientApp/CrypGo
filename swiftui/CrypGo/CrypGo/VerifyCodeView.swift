@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import PhoneNumberKit
+//import PhoneNumberKit
 
 struct VerifyCodeView: View {
     let phoneNumber: String
@@ -72,33 +72,33 @@ struct VerifyCodeView: View {
                     onCodeChange()
                 }
             Text("What's the code?").bold()
-            let phoneNumberString = PartialFormatter().formatPartial(phoneNumber)
-            Text("Enter the code we sent to \(phoneNumberString)")
-            HStack {
-                DigitText(char: $first)
-                DigitText(char: $second)
-                DigitText(char: $third)
-                DigitText(char: $fourth)
-                DigitText(char: $fifth)
-                DigitText(char: $sixth)
-            }
-            if let errorString = errorString {
-                Text(errorString).foregroundStyle(.red)
-            } else {
-                Text(" ")
-            }
-            if isLoading {
-                ProgressView()
-            } else {
-                ProgressView().tint(.clear)
-            }
-            Button {
-                resendCode()
-            } label: {
-                Text("Resend").bold().frame(maxWidth: .infinity)
-            }
-            .buttonStyle(.borderedProminent)
-            .padding()
+//            let phoneNumberString = PartialFormatter().formatPartial(phoneNumber)
+//            Text("Enter the code we sent to \(phoneNumberString)")
+//            HStack {
+//                DigitText(char: $first)
+//                DigitText(char: $second)
+//                DigitText(char: $third)
+//                DigitText(char: $fourth)
+//                DigitText(char: $fifth)
+//                DigitText(char: $sixth)
+//            }
+//            if let errorString = errorString {
+//                Text(errorString).foregroundStyle(.red)
+//            } else {
+//                Text(" ")
+//            }
+//            if isLoading {
+//                ProgressView()
+//            } else {
+//                ProgressView().tint(.clear)
+//            }
+//            Button {
+//                resendCode()
+//            } label: {
+//                Text("Resend").bold().frame(maxWidth: .infinity)
+//            }
+//            .buttonStyle(.borderedProminent)
+//            .padding()
         }
         .onAppear {
             focused = true

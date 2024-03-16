@@ -18,9 +18,6 @@
 		9083129B2BA3DFC200F105F0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9083128E2BA3DFC200F105F0 /* Preview Assets.xcassets */; };
 		9083129C2BA3DFC200F105F0 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908312902BA3DFC200F105F0 /* LoadingView.swift */; };
 		9083129D2BA3DFC200F105F0 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908312912BA3DFC200F105F0 /* UserModel.swift */; };
-		908312A02BA3E03000F105F0 /* PhoneNumberKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9083129F2BA3E03000F105F0 /* PhoneNumberKit */; };
-		908312A22BA3E03000F105F0 /* PhoneNumberKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 908312A12BA3E03000F105F0 /* PhoneNumberKit-Dynamic */; };
-		908312A42BA3E03000F105F0 /* PhoneNumberKit-Static in Frameworks */ = {isa = PBXBuildFile; productRef = 908312A32BA3E03000F105F0 /* PhoneNumberKit-Static */; };
 		90EFB9512BA3DF6700F27787 /* CrypGoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90EFB9502BA3DF6700F27787 /* CrypGoApp.swift */; };
 		90EFB9532BA3DF6700F27787 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90EFB9522BA3DF6700F27787 /* ContentView.swift */; };
 		90EFB9582BA3DF6900F27787 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 90EFB9572BA3DF6900F27787 /* Preview Assets.xcassets */; };
@@ -74,9 +71,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				908312A02BA3E03000F105F0 /* PhoneNumberKit in Frameworks */,
-				908312A22BA3E03000F105F0 /* PhoneNumberKit-Dynamic in Frameworks */,
-				908312A42BA3E03000F105F0 /* PhoneNumberKit-Static in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -189,9 +183,6 @@
 			);
 			name = CrypGo;
 			packageProductDependencies = (
-				9083129F2BA3E03000F105F0 /* PhoneNumberKit */,
-				908312A12BA3E03000F105F0 /* PhoneNumberKit-Dynamic */,
-				908312A32BA3E03000F105F0 /* PhoneNumberKit-Static */,
 			);
 			productName = CrypGo;
 			productReference = 90EFB94D2BA3DF6700F27787 /* CrypGo.app */;
@@ -662,24 +653,6 @@
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		9083129F2BA3E03000F105F0 /* PhoneNumberKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 9083129E2BA3E03000F105F0 /* XCRemoteSwiftPackageReference "PhoneNumberKit" */;
-			productName = PhoneNumberKit;
-		};
-		908312A12BA3E03000F105F0 /* PhoneNumberKit-Dynamic */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 9083129E2BA3E03000F105F0 /* XCRemoteSwiftPackageReference "PhoneNumberKit" */;
-			productName = "PhoneNumberKit-Dynamic";
-		};
-		908312A32BA3E03000F105F0 /* PhoneNumberKit-Static */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 9083129E2BA3E03000F105F0 /* XCRemoteSwiftPackageReference "PhoneNumberKit" */;
-			productName = "PhoneNumberKit-Static";
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 90EFB9452BA3DF6700F27787 /* Project object */;
 }
