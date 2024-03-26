@@ -37,7 +37,10 @@ struct IdentityView: View {
                 
                 Section {
                     Button {
+                        userModel.privateKey = nil
+                        userModel.publicKey = nil
                         userModel.logout()
+                        
                     } label: {
                         Text("Logout")
                     }
@@ -52,18 +55,7 @@ struct IdentityView: View {
         .navigationTitle("Identity")
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                Button("Save") {
-                    errorString = nil
-                    Task {
-                        do {
-                            try await userModel.setUserName(name: name)
-                            dismiss()
-                        } catch let apiError as ApiError {
-                            errorString = apiError.message
-                        }
-                    }
-                }
-                .disabled(!hasChanges)
+
             }
         }
         .onAppear {

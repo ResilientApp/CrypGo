@@ -14,20 +14,19 @@ struct RootView: View {
     //   (1) send -> verify replace with Home
     //   (2) loading replace with Home
     var body: some View {
-        switch (userModel.authToken, userModel.currentUser) {
-        case (.none, .none):
+        switch (userModel.publicKey) {
+        case (.none):
             NavigationStack {
-                EnterPhoneNumberView()
+                RegisterView()
+                    .environmentObject(userModel)
             }
             .environmentObject(userModel)
-        case (.some(let authToken), .none):
-            LoadingView(authToken: authToken)
-                .environmentObject(userModel)
-        case (_, .some):
+        case (.some(_)):
             NavigationStack {
                 HomeView()
             }
             .environmentObject(userModel)
+            
         }
     }
 }

@@ -27,6 +27,8 @@ struct HomeOverviewView: View {
             Text("Total assets").foregroundStyle(.white)
             Text(userModel.totalAssetsString) // Use the computed property here
                 .bold().font(.largeTitle).foregroundStyle(.white)
+            
+            
         }//end of VStack
         
         .navigationViewStyle(.stack)
@@ -80,6 +82,8 @@ struct AccountSummaryView: View {
         let accounts = userModel.currentUser?.accounts ?? []
         if accounts.count == 0 {
             Text("No accounts yet")
+            Text("Private Key: \(userModel.privateKey ?? "")")
+            Text("Private Key: \(userModel.publicKey ?? "")")
             Spacer()
         } else {
             Spacer()

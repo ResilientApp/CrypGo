@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9048F9AF2BA64B21004CEB2D /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9048F9AE2BA64B21004CEB2D /* RegisterView.swift */; };
 		908312922BA3DFC200F105F0 /* EnterPhoneNumberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908312852BA3DFC100F105F0 /* EnterPhoneNumberView.swift */; };
 		908312932BA3DFC200F105F0 /* IdentityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908312862BA3DFC100F105F0 /* IdentityView.swift */; };
 		908312942BA3DFC200F105F0 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908312872BA3DFC100F105F0 /* HomeView.swift */; };
@@ -18,6 +19,8 @@
 		9083129B2BA3DFC200F105F0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9083128E2BA3DFC200F105F0 /* Preview Assets.xcassets */; };
 		9083129C2BA3DFC200F105F0 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908312902BA3DFC200F105F0 /* LoadingView.swift */; };
 		9083129D2BA3DFC200F105F0 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908312912BA3DFC200F105F0 /* UserModel.swift */; };
+		90EB0B522BB27C56009AC055 /* Retro.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 90EB0B512BB27C38009AC055 /* Retro.ttf */; };
+		90EB0B562BB28973009AC055 /* cryptologo.png in Resources */ = {isa = PBXBuildFile; fileRef = 90EB0B552BB28973009AC055 /* cryptologo.png */; };
 		90EFB9512BA3DF6700F27787 /* CrypGoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90EFB9502BA3DF6700F27787 /* CrypGoApp.swift */; };
 		90EFB9532BA3DF6700F27787 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90EFB9522BA3DF6700F27787 /* ContentView.swift */; };
 		90EFB9582BA3DF6900F27787 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 90EFB9572BA3DF6900F27787 /* Preview Assets.xcassets */; };
@@ -44,6 +47,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9048F9AE2BA64B21004CEB2D /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		908312852BA3DFC100F105F0 /* EnterPhoneNumberView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterPhoneNumberView.swift; sourceTree = "<group>"; };
 		908312862BA3DFC100F105F0 /* IdentityView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IdentityView.swift; sourceTree = "<group>"; };
 		908312872BA3DFC100F105F0 /* HomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -55,6 +59,9 @@
 		9083128E2BA3DFC200F105F0 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		908312902BA3DFC200F105F0 /* LoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		908312912BA3DFC200F105F0 /* UserModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		90EB0B512BB27C38009AC055 /* Retro.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Retro.ttf; sourceTree = "<group>"; };
+		90EB0B532BB27FA7009AC055 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		90EB0B552BB28973009AC055 /* cryptologo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cryptologo.png; sourceTree = "<group>"; };
 		90EFB94D2BA3DF6700F27787 /* CrypGo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CrypGo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		90EFB9502BA3DF6700F27787 /* CrypGoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrypGoApp.swift; sourceTree = "<group>"; };
 		90EFB9522BA3DF6700F27787 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -100,6 +107,22 @@
 			path = "../../../../../../Downloads/FINALESTHOMEWORK4 2/Homework3/Preview Content";
 			sourceTree = "<group>";
 		};
+		90EB0B502BB27C26009AC055 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				90EB0B512BB27C38009AC055 /* Retro.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		90EB0B542BB2896A009AC055 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				90EB0B552BB28973009AC055 /* cryptologo.png */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
 		90EFB9442BA3DF6700F27787 = {
 			isa = PBXGroup;
 			children = (
@@ -123,12 +146,16 @@
 		90EFB94F2BA3DF6700F27787 /* CrypGo */ = {
 			isa = PBXGroup;
 			children = (
+				90EB0B532BB27FA7009AC055 /* Info.plist */,
 				90EFB9502BA3DF6700F27787 /* CrypGoApp.swift */,
 				90EFB9522BA3DF6700F27787 /* ContentView.swift */,
 				9083128C2BA3DFC200F105F0 /* AddAccountView.swift */,
+				90EB0B542BB2896A009AC055 /* Images */,
+				90EB0B502BB27C26009AC055 /* Fonts */,
 				9083128B2BA3DFC200F105F0 /* Api.swift */,
 				908312892BA3DFC100F105F0 /* Assets.xcassets */,
 				908312852BA3DFC100F105F0 /* EnterPhoneNumberView.swift */,
+				9048F9AE2BA64B21004CEB2D /* RegisterView.swift */,
 				908312872BA3DFC100F105F0 /* HomeView.swift */,
 				908312862BA3DFC100F105F0 /* IdentityView.swift */,
 				908312902BA3DFC200F105F0 /* LoadingView.swift */,
@@ -276,8 +303,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				9083129B2BA3DFC200F105F0 /* Preview Assets.xcassets in Resources */,
+				90EB0B562BB28973009AC055 /* cryptologo.png in Resources */,
 				90EFB9582BA3DF6900F27787 /* Preview Assets.xcassets in Resources */,
 				908312962BA3DFC200F105F0 /* Assets.xcassets in Resources */,
+				90EB0B522BB27C56009AC055 /* Retro.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -311,6 +340,7 @@
 				908312942BA3DFC200F105F0 /* HomeView.swift in Sources */,
 				908312922BA3DFC200F105F0 /* EnterPhoneNumberView.swift in Sources */,
 				908312982BA3DFC200F105F0 /* Api.swift in Sources */,
+				9048F9AF2BA64B21004CEB2D /* RegisterView.swift in Sources */,
 				9083129D2BA3DFC200F105F0 /* UserModel.swift in Sources */,
 				908312972BA3DFC200F105F0 /* VerifyCodeView.swift in Sources */,
 			);
@@ -401,7 +431,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -458,7 +488,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -479,11 +509,13 @@
 				DEVELOPMENT_TEAM = 2VZ74KAC94;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CrypGo/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -508,11 +540,13 @@
 				DEVELOPMENT_TEAM = 2VZ74KAC94;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CrypGo/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

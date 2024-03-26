@@ -27,13 +27,6 @@ struct LoadingView: View {
         .background(.blue)
         // NOTE: mention .task
         .task {
-            do {
-                try await userModel.loadUser()
-            } catch let apiError as ApiError {
-                errorString = apiError.message
-            } catch {
-                errorString = error.localizedDescription
-            }
         }
     }
 }

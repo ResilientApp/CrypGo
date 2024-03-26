@@ -6,69 +6,83 @@
 //
 
 import Foundation
+import SwiftUI
+
+struct Response: Decodable {
+    let data: Data?
+}
+
+struct Data: Decodable {
+    let generateKeys: GenerateKeys
+}
+
+struct GenerateKeys: Decodable {
+    let publicKey: String
+    let privateKey: String
+}
+
 
 @MainActor class UserModel: ObservableObject {
     // Authentication token and current user information
     @Published var authToken: String?
     @Published var currentUser: User?
+    @Published var privateKey: String?
+    @Published var publicKey: String?
     
     let missingAuthToken = ApiError(errorCode: "missing_auth_token_error", message: "Auth token is not set")
     let invalidAmount = ApiError(errorCode: "invalid_amount_error", message: "Invalid amount")
     
     init() {
-        authToken = UserDefaults.standard.string(forKey: "authToken")
+        self.publicKey = UserDefaults.standard.string(forKey: "publicKey")
+        self.privateKey = UserDefaults.standard.string(forKey: "privateKey")
     }
     
-    static func withAuthToken() -> UserModel {
-        let userModel = UserModel()
-        userModel.authToken = "1234"
-        return userModel
-    }
-    
-    func setUserName(name: String) async throws {
-        guard let authToken = authToken else {
-            throw missingAuthToken
+    // Registration of a user
+    func generateKeys(completion: @escaping (String?, String?, String?) -> Void) {
+        let parameters = "{\"query\":\"mutation GenerateKeys {\\n    generateKeys {\\n        publicKey\\n        privateKey\\n    }\\n}\\n\",\"variables\":{}}"
+        guard let postData = parameters.data(using: .utf8) else {
+            completion(nil, nil, "Failed to encode request parameters")
+            return
         }
-        
-        let userResponse = try await Api.shared.setUserName(authToken: authToken, name: name)
-        setCurrentUser(user: userResponse.user)
+
+        var request = URLRequest(url: URL(string: "https://cloud.resilientdb.com/graphql")!,timeoutInterval: Double.infinity)
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        request.httpMethod = "POST"
+        request.httpBody = postData
+
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data else {
+                completion(nil, nil, error?.localizedDescription ?? "Unknown error")
+                return
+            }
+
+            do {
+                let result = try JSONDecoder().decode(Response.self, from: data)
+                let publicKey = result.data?.generateKeys.publicKey
+                let privateKey = result.data?.generateKeys.privateKey
+                completion(publicKey, privateKey, nil)
+
+            } catch {
+                completion(nil, nil, "Failed to decode response")
+            }
+        }.resume()
     }
     
-    func verifyCodeAndLogin(e164PhoneNumber: String, code: String) async throws {
-        let verifyResponse = try await Api.shared.checkVerificationToken(e164PhoneNumber: e164PhoneNumber, code: code)
-        print("we're logged in, fetching user")
-        let userResponse = try await Api.shared.user(authToken: verifyResponse.authToken)
-        login(authToken: verifyResponse.authToken, user: userResponse.user)
-    }
-    
-    func loadUser() async throws {
-        guard let authToken = authToken else {
-            throw missingAuthToken
-        }
-        
-        let userResponse = try await Api.shared.user(authToken: authToken)
-        setCurrentUser(user: userResponse.user)
+    func saveKeys(privateKey : String , publicKey: String) {
+        saveAuthToken(privateKey: privateKey, publicKey: publicKey)
     }
     
     func logout() {
-        self.authToken = nil
-        self.currentUser = nil
-        saveAuthToken(authToken: nil)
-    }
-    
-    private func setCurrentUser(user: User?) {
-        self.currentUser = user
-    }
-    
-    private func login(authToken: String, user: User) {
-        saveAuthToken(authToken: authToken)
-        self.authToken = authToken
-        self.currentUser = user
+        UserDefaults.standard.removeObject(forKey: "privateKey")
+        UserDefaults.standard.removeObject(forKey: "publicKey")
+        UserDefaults.standard.synchronize()
     }
     
     // NOTE: we need to tell them about UserDefaults.standard and synchronize
-    private func saveAuthToken(authToken: String?) {
-        UserDefaults.standard.setValue(authToken, forKey: "authToken")
+    private func saveAuthToken(privateKey: String , publicKey: String) {
+        UserDefaults.standard.setValue(privateKey, forKey: "privateKey")
+        UserDefaults.standard.setValue(publicKey, forKey: "publicKey")
         UserDefaults.standard.synchronize()
     }
     
