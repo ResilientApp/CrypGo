@@ -10,68 +10,94 @@ import SwiftUI
 struct HomeView: View {
     
     var body: some View {
-        VStack {
-            HomeOverviewView()
-            AccountSummaryView()
+        @State var navigateToIdentity = false
+        @State var isShowingAddAccountView = false
+        ZStack{
+            Color(Color("PrimaryBackground"))
+                .ignoresSafeArea()
+            VStack {
+                HomeOverviewView()
+                AccountSummaryView()
+            }
+            .frame(maxWidth: .infinity)
+            .ignoresSafeArea()
+            .toolbar {
+                ToolbarItem(placement: .bottomBar) {
+                    HStack{
+                        Button {
+                            navigateToIdentity = true
+                        } label: {
+                            Image(systemName: "person.crop.circle.fill")
+                                .tint(.white)
+                                .foregroundColor(.black)
+                        }
+                        Button {
+                            navigateToIdentity = true
+                        } label: {
+                            Image(systemName: "person.crop.circle.fill")
+                                .tint(.white)
+                                .foregroundColor(.black)
+                        }
+                        Button(action: {
+                            isShowingAddAccountView = true
+                        }) {
+                            Image(systemName: "plus")
+                                .font(.headline)
+                                .foregroundColor(.blue)
+                                .frame(width: 35, height: 35) // Adjust padding to manage the size of the circle
+                                .background(Color.white)
+                                .clipShape(Circle())
+                                .shadow(radius: 2) // Adjust shadow to your liking
+                        }
+                        Button {
+                            navigateToIdentity = true
+                        } label: {
+                            Image(systemName: "person.crop.circle.fill")
+                                .tint(.white)
+                                .foregroundColor(.black)
+                        }
+                        Button {
+                            navigateToIdentity = true
+                        } label: {
+                            Image(systemName: "person.crop.circle.fill")
+                                .tint(.white)
+                                .foregroundColor(.black)
+                        }
+                    }
+                }
+            }//end of toolbar
+            .navigationDestination(isPresented: $navigateToIdentity) {
+                IdentityView()
+            }
+            .navigationDestination(isPresented: $isShowingAddAccountView) {
+                AddAccountView()
+            }
         }
-        .frame(maxWidth: .infinity)
     }
 }
 // Subview for displaying the total assets and a button to navigate to adding a new account and go to settings.
 struct HomeOverviewView: View {
     @EnvironmentObject var userModel: UserModel
-    @State var navigateToIdentity = false
-    @State private var isShowingAddAccountView = false
+    
+    @State private var searchText: String = ""
+    @State private var prompt: String = "Search Transactions"
     var body: some View {
         VStack {
-            Text("Total assets").foregroundStyle(.white)
-            Text(userModel.totalAssetsString) // Use the computed property here
-                .bold().font(.largeTitle).foregroundStyle(.white)
-            
+            Text("Account Balance")
+                .foregroundStyle(.black)
+                .font(Font.custom("PublicSans-ExtraLight", size: 22))
+                .padding(.top, 100)
+            Text(userModel.totalAssetsString)
+                .font(Font.custom("PublicSans-SemiBold.ttf", size: 50))
+                .foregroundStyle(.black)
             
         }//end of VStack
-        
-        .navigationViewStyle(.stack)
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbarBackground(.blue, for: .navigationBar)
-        .toolbarColorScheme(.dark, for: .navigationBar)
-        .toolbarBackground(.visible, for: .navigationBar)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button(action: {
-                    isShowingAddAccountView = true
-                }) {
-                    Image(systemName: "plus")
-                        .font(.headline)
-                        .foregroundColor(.blue)
-                        .frame(width: 35, height: 35) // Adjust padding to manage the size of the circle
-                        .background(Color.white)
-                        .clipShape(Circle())
-                        .shadow(radius: 2) // Adjust shadow to your liking
-                }
-            }
-        }//end of toolbar
-        .navigationTitle("Wallet")
-        .padding()
-        .frame(height: 240)
+        .searchable(text: $searchText, prompt: prompt)
+        .frame(height: 300)
         .frame(maxWidth: .infinity)
-        .background(.blue)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button {
-                    navigateToIdentity = true
-                } label: {
-                    Image(systemName: "person.crop.circle.fill")
-                        .tint(.white)
-                }
-            }
-        }
-        .navigationDestination(isPresented: $navigateToIdentity) {
-            IdentityView()
-        }
-        .navigationDestination(isPresented: $isShowingAddAccountView) {
-            AddAccountView()
-        }
+        .background(Color("DashboardPrimary"))
+        .cornerRadius(20)
+        
     }
 }
 
@@ -79,23 +105,172 @@ struct HomeOverviewView: View {
 struct AccountSummaryView: View {
     @EnvironmentObject var userModel: UserModel
     var body: some View {
-        let accounts = userModel.currentUser?.accounts ?? []
-        if accounts.count == 0 {
-            Text("No accounts yet")
-            Text("Private Key: \(userModel.privateKey ?? "")")
-            Text("Private Key: \(userModel.publicKey ?? "")")
-            Spacer()
-        } else {
-            Spacer()
-            List(userModel.currentUser?.accounts ?? [] ) { account in
-                NavigationLink(destination: AccountDetailView(account: account)) {
-                    AccountRow(account: account)
+        VStack{
+            HStack{
+                Text("Transactions")
+                    .padding()
+                Spacer()
+            }
+            Divider()
+            HStack{
+                Image(systemName: "dollarsign.circle")
+                    .padding()
+                VStack{
+                    HStack{
+                        Text("Bitcoin")
+                        Spacer()
+                    }
+                    HStack{
+                        Text("17 Sep 2023 11:21 AM")
+                        Spacer()
+                    }
+                    
                 }
-                .environmentObject(userModel)
+                Spacer()
+                VStack{
+                    Text("$ 350")
+                    Text("Pending")
+                }
+            }
+            HStack{
+                Image(systemName: "dollarsign.circle")
+                    .padding()
+                VStack{
+                    HStack{
+                        Text("Bitcoin")
+                        Spacer()
+                    }
+                    HStack{
+                        Text("17 Sep 2023 11:21 AM")
+                        Spacer()
+                    }
+                    
+                }
+                Spacer()
+                VStack{
+                    Text("$ 350")
+                    Text("Pending")
+                }
+            }
+            HStack{
+                Image(systemName: "dollarsign.circle")
+                    .padding()
+                VStack{
+                    HStack{
+                        Text("Bitcoin")
+                        Spacer()
+                    }
+                    HStack{
+                        Text("17 Sep 2023 11:21 AM")
+                        Spacer()
+                    }
+                    
+                }
+                Spacer()
+                VStack{
+                    Text("$ 350")
+                    Text("Pending")
+                }
+            }
+            HStack{
+                Image(systemName: "dollarsign.circle")
+                    .padding()
+                VStack{
+                    HStack{
+                        Text("Bitcoin")
+                        Spacer()
+                    }
+                    HStack{
+                        Text("17 Sep 2023 11:21 AM")
+                        Spacer()
+                    }
+                    
+                }
+                Spacer()
+                VStack{
+                    Text("$ 350")
+                    Text("Pending")
+                }
+            }
+            HStack{
+                Image(systemName: "dollarsign.circle")
+                    .padding()
+                VStack{
+                    HStack{
+                        Text("Bitcoin")
+                        Spacer()
+                    }
+                    HStack{
+                        Text("17 Sep 2023 11:21 AM")
+                        Spacer()
+                    }
+                    
+                }
+                Spacer()
+                VStack{
+                    Text("$ 350")
+                    Text("Pending")
+                }
+            }
+            HStack{
+                Image(systemName: "dollarsign.circle")
+                    .padding()
+                VStack{
+                    HStack{
+                        Text("Bitcoin")
+                        Spacer()
+                    }
+                    HStack{
+                        Text("17 Sep 2023 11:21 AM")
+                        Spacer()
+                    }
+                    
+                }
+                Spacer()
+                VStack{
+                    Text("$ 350")
+                    Text("Pending")
+                }
             }
         }
+            .background(.black)
+            .padding(.left, 5)
+            .padding(.right, 5)
+            .cornerRadius(20)
+            .foregroundColor(.white)
     }
 }
+
+//Custum Padding
+enum NoFlipEdge {
+    case left, right
+}
+
+struct NoFlipPadding: ViewModifier {
+    let edge: NoFlipEdge
+    let length: CGFloat?
+    @Environment(\.layoutDirection) var layoutDirection
+    
+    private var computedEdge: Edge.Set {
+        if layoutDirection == .rightToLeft {
+            return edge == .left ? .trailing : .leading
+        } else {
+            return edge == .left ? .leading : .trailing
+        }
+    }
+    
+    func body(content: Content) -> some View {
+        content
+            .padding(computedEdge, length)
+    }
+}
+
+extension View {
+    func padding(_ edge: NoFlipEdge, _ length: CGFloat? = nil) -> some View {
+        self.modifier(NoFlipPadding(edge: edge, length: length))
+    }
+}
+
 // View for displaying individual account details in a row.
 struct AccountRow: View {
     let account: Account

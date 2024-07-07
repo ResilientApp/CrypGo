@@ -5,6 +5,9 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>Retro.ttf</string>
+		<string>PublicSans.ttf</string>
+		<string>PublicSans-ExtraLight.ttf</string>
+		<string>PublicSans-SemiBold.ttf</string>
 	</array>
 	<key>CFBundleExecutable</key>
 	<string></string>

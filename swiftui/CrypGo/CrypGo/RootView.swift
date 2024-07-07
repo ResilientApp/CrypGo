@@ -14,19 +14,17 @@ struct RootView: View {
     //   (1) send -> verify replace with Home
     //   (2) loading replace with Home
     var body: some View {
-        switch (userModel.publicKey) {
-        case (.none):
+        if userModel.isRegistered {
+            NavigationStack {
+                HomeView()
+            }
+            .environmentObject(userModel)
+        } else {
             NavigationStack {
                 RegisterView()
                     .environmentObject(userModel)
             }
             .environmentObject(userModel)
-        case (.some(_)):
-            NavigationStack {
-                HomeView()
-            }
-            .environmentObject(userModel)
-            
         }
     }
 }

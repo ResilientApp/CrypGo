@@ -28,6 +28,7 @@ struct GenerateKeys: Decodable {
     @Published var currentUser: User?
     @Published var privateKey: String?
     @Published var publicKey: String?
+    @Published var isRegistered: Bool
     
     let missingAuthToken = ApiError(errorCode: "missing_auth_token_error", message: "Auth token is not set")
     let invalidAmount = ApiError(errorCode: "invalid_amount_error", message: "Invalid amount")
@@ -35,6 +36,7 @@ struct GenerateKeys: Decodable {
     init() {
         self.publicKey = UserDefaults.standard.string(forKey: "publicKey")
         self.privateKey = UserDefaults.standard.string(forKey: "privateKey")
+        self.isRegistered = (UserDefaults.standard.string(forKey: "publicKey") != nil)
     }
     
     // Registration of a user
@@ -44,25 +46,34 @@ struct GenerateKeys: Decodable {
             completion(nil, nil, "Failed to encode request parameters")
             return
         }
-
+        
         var request = URLRequest(url: URL(string: "https://cloud.resilientdb.com/graphql")!,timeoutInterval: Double.infinity)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-
+        
         request.httpMethod = "POST"
         request.httpBody = postData
-
+        
         URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data else {
                 completion(nil, nil, error?.localizedDescription ?? "Unknown error")
                 return
             }
-
+            
             do {
                 let result = try JSONDecoder().decode(Response.self, from: data)
                 let publicKey = result.data?.generateKeys.publicKey
                 let privateKey = result.data?.generateKeys.privateKey
-                completion(publicKey, privateKey, nil)
-
+                
+                // Update the keys
+                DispatchQueue.main.async {
+                    self.publicKey = publicKey
+                    self.privateKey = privateKey
+                    
+                    // Set isRegistered to true after keys are successfully updated
+                    self.isRegistered = true
+                    
+                    completion(publicKey, privateKey, nil)
+                }
             } catch {
                 completion(nil, nil, "Failed to decode response")
             }
@@ -76,6 +87,7 @@ struct GenerateKeys: Decodable {
     func logout() {
         UserDefaults.standard.removeObject(forKey: "privateKey")
         UserDefaults.standard.removeObject(forKey: "publicKey")
+        self.isRegistered = false
         UserDefaults.standard.synchronize()
     }
     
@@ -143,7 +155,7 @@ struct GenerateKeys: Decodable {
             throw error
         }
     }
-
+    
     // Function delete an account
     func deleteAccount(accountId: String) async throws {
         guard let authToken = self.authToken else {
@@ -168,9 +180,9 @@ struct GenerateKeys: Decodable {
         
     }
     var totalAssets: Int {
-            currentUser?.accounts.reduce(0) { $0 + $1.balance } ?? 0 //conditional wrapping to sum the total assets
-        }
- }
+        currentUser?.accounts.reduce(0) { $0 + $1.balance } ?? 0 //conditional wrapping to sum the total assets
+    }
+}
 extension UserModel { //extension of the User model to convert the API amountInCents into dollars
     var totalAssetsString: String {
         let totalAssetsValue = Double(totalAssets) / 100 // Convert cents to dollars

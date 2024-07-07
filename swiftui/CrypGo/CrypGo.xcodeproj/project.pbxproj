@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		900E6EC42C3B0A380070522B /* PublicSans.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 900E6EC32C3B09D20070522B /* PublicSans.ttf */; };
+		900E6EC62C3B0A890070522B /* PublicSans-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 900E6EC52C3B0A890070522B /* PublicSans-ExtraLight.ttf */; };
+		900E6EC82C3B0B0C0070522B /* PublicSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 900E6EC72C3B0B0C0070522B /* PublicSans-SemiBold.ttf */; };
 		9048F9AF2BA64B21004CEB2D /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9048F9AE2BA64B21004CEB2D /* RegisterView.swift */; };
 		908312922BA3DFC200F105F0 /* EnterPhoneNumberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908312852BA3DFC100F105F0 /* EnterPhoneNumberView.swift */; };
 		908312932BA3DFC200F105F0 /* IdentityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908312862BA3DFC100F105F0 /* IdentityView.swift */; };
@@ -47,6 +50,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		900E6EC32C3B09D20070522B /* PublicSans.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = PublicSans.ttf; sourceTree = "<group>"; };
+		900E6EC52C3B0A890070522B /* PublicSans-ExtraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PublicSans-ExtraLight.ttf"; sourceTree = "<group>"; };
+		900E6EC72C3B0B0C0070522B /* PublicSans-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PublicSans-SemiBold.ttf"; sourceTree = "<group>"; };
 		9048F9AE2BA64B21004CEB2D /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		908312852BA3DFC100F105F0 /* EnterPhoneNumberView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterPhoneNumberView.swift; sourceTree = "<group>"; };
 		908312862BA3DFC100F105F0 /* IdentityView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IdentityView.swift; sourceTree = "<group>"; };
@@ -110,6 +116,9 @@
 		90EB0B502BB27C26009AC055 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				900E6EC32C3B09D20070522B /* PublicSans.ttf */,
+				900E6EC52C3B0A890070522B /* PublicSans-ExtraLight.ttf */,
+				900E6EC72C3B0B0C0070522B /* PublicSans-SemiBold.ttf */,
 				90EB0B512BB27C38009AC055 /* Retro.ttf */,
 			);
 			path = Fonts;
@@ -304,8 +313,11 @@
 			files = (
 				9083129B2BA3DFC200F105F0 /* Preview Assets.xcassets in Resources */,
 				90EB0B562BB28973009AC055 /* cryptologo.png in Resources */,
+				900E6EC42C3B0A380070522B /* PublicSans.ttf in Resources */,
+				900E6EC82C3B0B0C0070522B /* PublicSans-SemiBold.ttf in Resources */,
 				90EFB9582BA3DF6900F27787 /* Preview Assets.xcassets in Resources */,
 				908312962BA3DFC200F105F0 /* Assets.xcassets in Resources */,
+				900E6EC62C3B0A890070522B /* PublicSans-ExtraLight.ttf in Resources */,
 				90EB0B522BB27C56009AC055 /* Retro.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

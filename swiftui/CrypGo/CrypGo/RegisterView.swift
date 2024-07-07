@@ -61,8 +61,6 @@ struct RegisterView: View {
                     if let publicKey = publicKey, let privateKey = privateKey {
                         print("Public Key: \(publicKey)")
                         print("Private Key: \(privateKey)")
-                        userModel.privateKey = privateKey
-                        userModel.publicKey = publicKey
                         userModel.saveKeys(privateKey: privateKey, publicKey: publicKey)
                     } else if let error = error {
                         print("Error: \(error)")
