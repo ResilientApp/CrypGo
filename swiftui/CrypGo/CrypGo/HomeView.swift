@@ -7,74 +7,178 @@
 
 import SwiftUI
 
+struct PlantData: Identifiable {
+    let id = UUID()
+    let name: String
+    let health: String
+    let lastWatered: String
+    let imageName: String
+}
+
+struct TankData: Identifiable {
+    let id = UUID()
+    let dataName: String
+    let value: String
+    let status: String
+}
+
 struct HomeView: View {
+    @State private var selectedTab: Tab = .house
     
     var body: some View {
-        @State var navigateToIdentity = false
-        @State var isShowingAddAccountView = false
-        ZStack{
-            Color(Color("PrimaryBackground"))
-                .ignoresSafeArea()
+        ZStack {
             VStack {
-                HomeOverviewView()
-                AccountSummaryView()
-            }
-            .frame(maxWidth: .infinity)
-            .ignoresSafeArea()
-            .toolbar {
-                ToolbarItem(placement: .bottomBar) {
-                    HStack{
-                        Button {
-                            navigateToIdentity = true
-                        } label: {
-                            Image(systemName: "person.crop.circle.fill")
-                                .tint(.white)
-                                .foregroundColor(.black)
-                        }
-                        Button {
-                            navigateToIdentity = true
-                        } label: {
-                            Image(systemName: "person.crop.circle.fill")
-                                .tint(.white)
-                                .foregroundColor(.black)
-                        }
-                        Button(action: {
-                            isShowingAddAccountView = true
-                        }) {
-                            Image(systemName: "plus")
-                                .font(.headline)
-                                .foregroundColor(.blue)
-                                .frame(width: 35, height: 35) // Adjust padding to manage the size of the circle
-                                .background(Color.white)
-                                .clipShape(Circle())
-                                .shadow(radius: 2) // Adjust shadow to your liking
-                        }
-                        Button {
-                            navigateToIdentity = true
-                        } label: {
-                            Image(systemName: "person.crop.circle.fill")
-                                .tint(.white)
-                                .foregroundColor(.black)
-                        }
-                        Button {
-                            navigateToIdentity = true
-                        } label: {
-                            Image(systemName: "person.crop.circle.fill")
-                                .tint(.white)
-                                .foregroundColor(.black)
-                        }
-                    }
+                // Top-fixed HomeOverviewView
+                if selectedTab == .house {
+                    HomeContentView()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                } else if selectedTab == .gearshape {
+                    SettingsView()
                 }
-            }//end of toolbar
-            .navigationDestination(isPresented: $navigateToIdentity) {
-                IdentityView()
-            }
-            .navigationDestination(isPresented: $isShowingAddAccountView) {
-                AddAccountView()
+                
+                // Bottom-fixed CustomTabBar
+                CustomTabBar(selectedTab: $selectedTab)
+                    .frame(maxWidth: .infinity)
+                    .padding(.bottom, 10)
             }
         }
     }
 }
+
+
+struct HomeContentView: View {
+    @EnvironmentObject var userModel: UserModel
+    
+    var body: some View {
+        VStack(spacing: 0) {
+            // Fixed HomeOverviewView at the top
+           
+            
+            // Scrollable content for plant and tank data
+            ScrollView {
+                VStack {
+                    HomeOverviewView()
+                    PlantCarouselView()
+                    FishTankDataView()
+                }
+            }
+        }
+    }
+}
+
+// Plant Carousel View
+struct PlantCarouselView: View {
+    @State var plants: [PlantData] = [
+        PlantData(name: "Manoj-Avatar", health: "Healthy", lastWatered: "2 days ago", imageName: "manoj-avatar"),
+        PlantData(name: "Manoj-Avatar", health: "Thriving", lastWatered: "3 days ago", imageName: "manoj-avatar"),
+        PlantData(name: "Mango", health: "Thriving", lastWatered: "3 days ago", imageName: "manoj-avatar"),
+        PlantData(name: "Croissant", health: "Thriving", lastWatered: "3 days ago", imageName: "manoj-avatar"),
+    ]
+    
+    var body: some View {
+        VStack(alignment: .leading) {
+            HStack {
+                Text("My Plants")
+                    .padding(.leading)
+                    .foregroundColor(.white) // Set title color to black
+                    .font(Font.custom("PublicSans-SemiBold", size: 18))
+                Spacer()
+                Button(action: {
+                    // Action to add another plant
+                }) {
+                    Image(systemName: "plus.circle")
+                        .font(.title)
+                        .padding(.trailing)
+                        .foregroundColor(.black) // Set button icon color to black
+                }
+            }
+            
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 15) {
+                    ForEach(plants) { plant in
+                        VStack {
+                            Image(plant.imageName)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 80, height: 80)
+                                .clipShape(Circle())
+                            Text(plant.name)
+                                .font(Font.custom("PublicSans", size: 16))
+                                .foregroundColor(.black)
+                            Text("Health: \(plant.health)")
+                                .font(Font.custom("PublicSans", size: 14))
+                                .foregroundColor(.black)
+                            Text("Last Watered: \(plant.lastWatered)")
+                                .font(Font.custom("PublicSans", size: 14))
+                                .font(.subheadline)
+                                .foregroundColor(.black)
+                        }
+                        .padding()
+                        .background(Color.white)
+                        .cornerRadius(10)
+                        .shadow(radius: 2)
+                    }
+                }
+                .padding(.horizontal)
+            }
+            .frame(height: 150)
+        }
+        .padding(.top)
+    }
+}
+
+struct FishTankDataView: View {
+    @State var tankData: [TankData] = [
+        TankData(dataName: "Last Fed", value: "5 hrs", status: "Normal"),
+        TankData(dataName: "Food Left", value: "2 days", status: "Low"),
+        TankData(dataName: "pH Level", value: "7.2", status: "Balanced"),
+        TankData(dataName: "Water Purity Level", value: "90%", status: "Good"),
+        TankData(dataName: "Temperature", value: "25°C", status: "Optimal"),
+        TankData(dataName: "Water Hardness", value: "10 dGH", status: "Good"),
+    ]
+    
+    var body: some View {
+        VStack {
+            Text("Fish Tank Data")
+                .font(Font.custom("PublicSans-SemiBold", size: 18))
+                .padding(.top)
+                .foregroundColor(.white)
+            
+            LazyVGrid(
+                columns: [
+                    GridItem(.flexible()),
+                    GridItem(.flexible()),
+                    GridItem(.flexible())
+                ],
+                spacing: 10
+            ) {
+                ForEach(tankData) { data in
+                    VStack {
+                        
+                        Text(data.dataName)
+                            .font(Font.custom("PublicSans", size: 14))
+                            .foregroundColor(.black)
+                            .multilineTextAlignment(.center)
+                        Text(data.value)
+                            .font(Font.custom("PublicSans", size: 20))
+                            .bold()
+                            .foregroundColor(.black)
+                        Text(data.status)
+                            .font(Font.custom("PublicSans", size: 12))
+                            .foregroundColor(.black)
+                    }
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(Color.white)
+                    .cornerRadius(10)
+                    .shadow(radius: 2)
+                }
+            }
+            .padding(.horizontal)
+        }
+    }
+}
+
 // Subview for displaying the total assets and a button to navigate to adding a new account and go to settings.
 struct HomeOverviewView: View {
     @EnvironmentObject var userModel: UserModel
@@ -83,163 +187,20 @@ struct HomeOverviewView: View {
     @State private var prompt: String = "Search Transactions"
     var body: some View {
         VStack {
-            Text("Account Balance")
+            Text("Welcome Back")
                 .foregroundStyle(.black)
-                .font(Font.custom("PublicSans-ExtraLight", size: 22))
-                .padding(.top, 100)
-            Text(userModel.totalAssetsString)
-                .font(Font.custom("PublicSans-SemiBold.ttf", size: 50))
-                .foregroundStyle(.black)
+                .font(Font.custom("PublicSans-SemiBold.ttf", size: 20))
+            WelcomeView()
             
         }//end of VStack
         .searchable(text: $searchText, prompt: prompt)
-        .frame(height: 300)
+        .frame(height: 200)
         .frame(maxWidth: .infinity)
         .background(Color("DashboardPrimary"))
         .cornerRadius(20)
-        
     }
 }
 
-// View for summarizing the user's accounts.
-struct AccountSummaryView: View {
-    @EnvironmentObject var userModel: UserModel
-    var body: some View {
-        VStack{
-            HStack{
-                Text("Transactions")
-                    .padding()
-                Spacer()
-            }
-            Divider()
-            HStack{
-                Image(systemName: "dollarsign.circle")
-                    .padding()
-                VStack{
-                    HStack{
-                        Text("Bitcoin")
-                        Spacer()
-                    }
-                    HStack{
-                        Text("17 Sep 2023 11:21 AM")
-                        Spacer()
-                    }
-                    
-                }
-                Spacer()
-                VStack{
-                    Text("$ 350")
-                    Text("Pending")
-                }
-            }
-            HStack{
-                Image(systemName: "dollarsign.circle")
-                    .padding()
-                VStack{
-                    HStack{
-                        Text("Bitcoin")
-                        Spacer()
-                    }
-                    HStack{
-                        Text("17 Sep 2023 11:21 AM")
-                        Spacer()
-                    }
-                    
-                }
-                Spacer()
-                VStack{
-                    Text("$ 350")
-                    Text("Pending")
-                }
-            }
-            HStack{
-                Image(systemName: "dollarsign.circle")
-                    .padding()
-                VStack{
-                    HStack{
-                        Text("Bitcoin")
-                        Spacer()
-                    }
-                    HStack{
-                        Text("17 Sep 2023 11:21 AM")
-                        Spacer()
-                    }
-                    
-                }
-                Spacer()
-                VStack{
-                    Text("$ 350")
-                    Text("Pending")
-                }
-            }
-            HStack{
-                Image(systemName: "dollarsign.circle")
-                    .padding()
-                VStack{
-                    HStack{
-                        Text("Bitcoin")
-                        Spacer()
-                    }
-                    HStack{
-                        Text("17 Sep 2023 11:21 AM")
-                        Spacer()
-                    }
-                    
-                }
-                Spacer()
-                VStack{
-                    Text("$ 350")
-                    Text("Pending")
-                }
-            }
-            HStack{
-                Image(systemName: "dollarsign.circle")
-                    .padding()
-                VStack{
-                    HStack{
-                        Text("Bitcoin")
-                        Spacer()
-                    }
-                    HStack{
-                        Text("17 Sep 2023 11:21 AM")
-                        Spacer()
-                    }
-                    
-                }
-                Spacer()
-                VStack{
-                    Text("$ 350")
-                    Text("Pending")
-                }
-            }
-            HStack{
-                Image(systemName: "dollarsign.circle")
-                    .padding()
-                VStack{
-                    HStack{
-                        Text("Bitcoin")
-                        Spacer()
-                    }
-                    HStack{
-                        Text("17 Sep 2023 11:21 AM")
-                        Spacer()
-                    }
-                    
-                }
-                Spacer()
-                VStack{
-                    Text("$ 350")
-                    Text("Pending")
-                }
-            }
-        }
-            .background(.black)
-            .padding(.left, 5)
-            .padding(.right, 5)
-            .cornerRadius(20)
-            .foregroundColor(.white)
-    }
-}
 
 //Custum Padding
 enum NoFlipEdge {
@@ -271,202 +232,6 @@ extension View {
     }
 }
 
-// View for displaying individual account details in a row.
-struct AccountRow: View {
-    let account: Account
-    
-    var body: some View {
-        HStack {
-            Text(account.name)
-                .font(.headline)
-            Spacer()
-            Text(account.balanceString())
-                .font(.subheadline)
-        }
-        .padding()
-        .background(Color.white)
-        .cornerRadius(10)
-        .shadow(radius: 2)
-    }
-}
-// Detailed view for one specific account.
-struct AccountDetailView: View {
-    @Environment(\.presentationMode) var presentationMode
-    @EnvironmentObject var userModel: UserModel
-    let account: Account
-    @State private var amountText: String = ""
-    @State private var alertMessage: String = ""
-    @State private var showAlert: Bool = false
-    @State private var refreshFlag = false
-    @State private var showingAccountsList = false
-    
-    var body: some View {
-        VStack {
-            
-            Text(account.name)
-                .font(.headline)
-            Text("Balance: \(account.balanceString())")
-                .font(.subheadline)
-            
-            TextField("Amount", text: $amountText)
-                .keyboardType(.decimalPad)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding()
-            
-            HStack {
-                Button("Deposit") {
-                    guard let amount = Int(amountText) else {
-                        alertMessage = "Please enter a valid amount."
-                        showAlert = true
-                        return
-                    }
-                    deposit(amountInCents: amount, userModel: userModel)
-                    
-                }
-                .buttonStyle(ActionButtonStyle())
-                
-                Button("Withdraw") {
-                    guard let amount = Int(amountText) else {
-                        alertMessage = "Please enter a valid amount."
-                        showAlert = true
-                        return
-                    }
-                    withdraw(amountInCents: amount, userModel: userModel)
-                }
-                .buttonStyle(ActionButtonStyle())
-                
-                
-                Button("Transfer") {
-                    guard Int(amountText) != nil else {
-                        alertMessage = "Please enter a valid amount."
-                        showAlert = true
-                        return
-                    }
-                    
-                    
-                    
-                    // Assuming userModel is an observable object
-                    if let accounts = userModel.currentUser?.accounts {
-                        if accounts.isEmpty {
-                            alertMessage = "No accounts found."
-                            showAlert = true
-                        } else {
-                            guard Int(amountText) ?? 0 < account.balance else {
-                                alertMessage = "Your account has insufficient funds"
-                                showAlert = true
-                                return
-                            }
-                            //list of accounts
-                            showingAccountsList.toggle()
-                        }
-                    }
-                }
-                //UI of it
-                .sheet(isPresented: $showingAccountsList) {
-                    
-                    List(userModel.currentUser?.accounts ?? []) { account in
-                        Button(action: {
-                            // Call a function with the account name as an argument
-                            performTransfer(accountName: account.id, amountInCents: Int(amountText) ?? 0, userModel: userModel)
-                            showingAccountsList.toggle()
-                        }) {
-                            // AccountRow content
-                            AccountRow(account: account)
-                        }
-                        .environmentObject(userModel)
-                    }
-                }
-                .buttonStyle(ActionButtonStyle())
-            }//end of Hstack
-        }//end of Vstack
-        
-        
-        //delete account :
-        .navigationBarItems(trailing: Button(action: {
-            Task {
-                do {
-                    // Attempt to delete the account
-                    try await userModel.deleteAccount(accountId: account.id)
-                    await MainActor.run {
-                        presentationMode.wrappedValue.dismiss()
-                    }
-                } catch {
-                    // Handle errors, for example by showing an alert
-                    alertMessage = "Failed to delete account: \(error.localizedDescription)"
-                    showAlert = true
-                }
-            }
-        }) {
-            Image(systemName: "trash")
-        })
-        //end of deleteAccount logic
-        
-        .environmentObject(userModel)
-        .navigationBarTitle("Account Details", displayMode: .inline)
-        .padding()
-        .alert(isPresented: $showAlert) {
-            Alert(title: Text("Alert"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
-        }
-    }
-    
-    //Function to make the transfer
-    func performTransfer(accountName: String, amountInCents: Int, userModel: UserModel) {
-        // Your implementation here
-        print("Performing transfer for account: \(accountName)")
-        // Add your transfer logic here
-        // Use a List to display the accounts
-        
-        Task {
-            do {
-                try await userModel.transfer(toaccountId: accountName, fromaccountid: account.id, amountInCents: amountInCents)
-                alertMessage = "Deposit successful."
-                presentationMode.wrappedValue.dismiss()
-            } catch {
-                alertMessage = "Deposit failed: \(error.localizedDescription)"
-            }
-            showAlert = true
-        }
-    }
-    
-    private func deposit(amountInCents: Int, userModel: UserModel) {
-        Task {
-            do {
-                try await userModel.deposit(accountId: account.id, amountInCents: amountInCents)
-                alertMessage = "Deposit successful."
-                presentationMode.wrappedValue.dismiss()
-            } catch {
-                alertMessage = "Deposit failed: \(error.localizedDescription)"
-            }
-            showAlert = true
-        }
-    }
-    
-    private func withdraw(amountInCents: Int, userModel: UserModel) {
-        //        @EnvironmentObject var userModel: UserModel
-        guard amountInCents > 0 else {
-            alertMessage = "Please enter a positive amount to withdraw."
-            showAlert = true
-            return
-        }//end of else
-        // Check if the account has sufficient funds for withdrawal
-        if amountInCents > account.balance{
-            alertMessage = "Your account has insufficient funds"
-            showAlert = true
-            return
-        }
-        Task {
-            do {
-                try await userModel.withdraw(accountId: account.id, amountInCents: amountInCents)
-                alertMessage = "Withdrawal successful."
-                presentationMode.wrappedValue.dismiss()
-            } catch {
-                alertMessage = "Withdrawal failed: \(error.localizedDescription)"
-            }
-            showAlert = true
-        }// end of Task
-    } //end of withdraw
-}//end of struct
-
 
 //Applied to Button views to create a consistent style across the app.
 struct ActionButtonStyle: ButtonStyle {
@@ -479,6 +244,79 @@ struct ActionButtonStyle: ButtonStyle {
             .scaleEffect(configuration.isPressed ? 0.95 : 1.0)
     }
 }//end of ActionButtonStyle.
+
+struct WelcomeView: View {
+    @State private var subMessage: String = ""
+    
+    // Array of humorous sub-messages
+    let subMessages = [
+        "Your fish are reporting all systems go… for now.",
+        "Remember, happy plants = happy fish. No pressure!",
+        "Today's forecast: 99% chance of fish watching you work.",
+        "Your plants have reached 'thirsty influencer' status.",
+        "Fish looking lively! Or… maybe that’s just their default look?",
+        "Plants on duty. Fish on patrol. All under your command!",
+        "Don’t worry, your plants won’t judge your hydration habits.",
+        "Your tank’s pH balance is better than most people’s diets!",
+        "Fish update: No plans to overthrow the tank… yet.",
+        "Keeping plants and fish happy since… well, right now!",
+        "Monitoring fish, plants, and… oh look, there’s you!",
+        "The plants thank you for being their water source.",
+        "Your tank is thriving! Just like your commitment to them.",
+        "Great news! pH levels stable, fish morale high.",
+        "Water purity check complete. Tank population is pleased.",
+        "Fish report: All fins and tails accounted for.",
+        "Your plants say, ‘Thanks for the H2O boost!’",
+        "Tank update: Fish are thriving. Plants are fabulous.",
+        "Current pH level: Better than your morning coffee.",
+        "Tank status: Calm, cool, and swimming.",
+        "Tank water quality: As pure as your love for aquaponics.",
+        "Fish news: They still think you’re a hero!",
+        "Today’s goal: Keep the pH balanced and the plants fed.",
+        "Good news: No fish tantrums reported… yet.",
+        "Your plants wanted a selfie. Sadly, they can’t hold a phone.",
+        "Fish fact: They’re secretly judging your water quality skills.",
+        "Plant health check: Looking leafy and lively!",
+        "Feeding fish: Just one of your many talents.",
+        "Fish were asking when you’d be back. No, really.",
+        "Tank vibes: Peaceful, productive, and slightly fishy.",
+        "Today’s pH level: Perfect. Just like you planned.",
+        "Plant whisperer mode: Activated.",
+        "Fish update: They’re swimming, and that’s all you need.",
+        "Reminder: Fish thrive on compliments too.",
+        "Tank condition: Top-notch. Fish-approved.",
+        "Plant report: No complaints. Just vibes.",
+        "Latest tank gossip: Fish don’t have much to say today.",
+        "Fish reaction: They think you’re a tank magician.",
+        "Your plants are thriving. The fish are thriving. Nice work!",
+        "Warning: Fish might start giving you side-eye if they’re hungry.",
+        "If plants could clap, yours would be cheering.",
+        "Fish water quality: Olympic-level sparkling.",
+        "Plant health report: Still green and fabulous.",
+        "Fish talk: ‘Do we get extra snacks today?’",
+        "Today’s agenda: Hydrate, feed, and rule the tank.",
+        "You’re the best thing to happen to this tank.",
+        "Fish’s only complaint: None. They’re fish.",
+        "Tank trivia: You’ve officially outsmarted algae!",
+        "Your plants think you’re the world’s best hydration expert.",
+        "Fish health: Swimmingly good. Plant health: Blooming.",
+        "Your tank is thriving under your watchful eye.",
+        "Fish update: They’re chill. You’re doing great.",
+        "Plant status: Lush and loving life.",
+        "Tank vibes: Thanks to you, they’re impeccable."
+    ]
+    
+    var body: some View {
+        Text(subMessage)
+            .font(Font.custom("PublicSans-ExtraLight", size: 22))
+            .foregroundStyle(.black)
+            .multilineTextAlignment(.center)
+            .onAppear {
+                subMessage = subMessages.randomElement() ?? "Welcome to your aquaponics app!"
+            }
+        
+    }
+}
 
 #Preview {
     NavigationStack {

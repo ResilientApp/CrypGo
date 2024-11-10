@@ -14,18 +14,21 @@ struct RootView: View {
     //   (1) send -> verify replace with Home
     //   (2) loading replace with Home
     var body: some View {
-        if userModel.isRegistered {
-            NavigationStack {
-                HomeView()
-            }
+//        if userModel.isRegistered {
+//            NavigationStack {
+//                HomeView()
+//            }
+//            .environmentObject(userModel)
+//        } else {
+//            NavigationStack {
+//                RegisterView()
+//                    .environmentObject(userModel)
+//            }
+//            .environmentObject(userModel)
+//        }
+        HomeView()
             .environmentObject(userModel)
-        } else {
-            NavigationStack {
-                RegisterView()
-                    .environmentObject(userModel)
-            }
-            .environmentObject(userModel)
-        }
+            .background(Color("Snow"))
     }
 }
 

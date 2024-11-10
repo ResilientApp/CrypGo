@@ -11,6 +11,8 @@
 		900E6EC62C3B0A890070522B /* PublicSans-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 900E6EC52C3B0A890070522B /* PublicSans-ExtraLight.ttf */; };
 		900E6EC82C3B0B0C0070522B /* PublicSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 900E6EC72C3B0B0C0070522B /* PublicSans-SemiBold.ttf */; };
 		9048F9AF2BA64B21004CEB2D /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9048F9AE2BA64B21004CEB2D /* RegisterView.swift */; };
+		9051D5BE2CE069F200414D61 /* CustomTabViewBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9051D5BD2CE069F200414D61 /* CustomTabViewBar.swift */; };
+		9051D5C02CE06D8300414D61 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9051D5BF2CE06D8300414D61 /* SettingsView.swift */; };
 		908312922BA3DFC200F105F0 /* EnterPhoneNumberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908312852BA3DFC100F105F0 /* EnterPhoneNumberView.swift */; };
 		908312932BA3DFC200F105F0 /* IdentityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908312862BA3DFC100F105F0 /* IdentityView.swift */; };
 		908312942BA3DFC200F105F0 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908312872BA3DFC100F105F0 /* HomeView.swift */; };
@@ -54,6 +56,8 @@
 		900E6EC52C3B0A890070522B /* PublicSans-ExtraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PublicSans-ExtraLight.ttf"; sourceTree = "<group>"; };
 		900E6EC72C3B0B0C0070522B /* PublicSans-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PublicSans-SemiBold.ttf"; sourceTree = "<group>"; };
 		9048F9AE2BA64B21004CEB2D /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
+		9051D5BD2CE069F200414D61 /* CustomTabViewBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabViewBar.swift; sourceTree = "<group>"; };
+		9051D5BF2CE06D8300414D61 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SettingsView.swift; path = ../../../../../SettingsView.swift; sourceTree = "<group>"; };
 		908312852BA3DFC100F105F0 /* EnterPhoneNumberView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterPhoneNumberView.swift; sourceTree = "<group>"; };
 		908312862BA3DFC100F105F0 /* IdentityView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IdentityView.swift; sourceTree = "<group>"; };
 		908312872BA3DFC100F105F0 /* HomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -166,6 +170,8 @@
 				908312852BA3DFC100F105F0 /* EnterPhoneNumberView.swift */,
 				9048F9AE2BA64B21004CEB2D /* RegisterView.swift */,
 				908312872BA3DFC100F105F0 /* HomeView.swift */,
+				9051D5BF2CE06D8300414D61 /* SettingsView.swift */,
+				9051D5BD2CE069F200414D61 /* CustomTabViewBar.swift */,
 				908312862BA3DFC100F105F0 /* IdentityView.swift */,
 				908312902BA3DFC200F105F0 /* LoadingView.swift */,
 				9083128F2BA3DFC200F105F0 /* Preview Content */,
@@ -350,7 +356,9 @@
 				908312932BA3DFC200F105F0 /* IdentityView.swift in Sources */,
 				9083129A2BA3DFC200F105F0 /* RootView.swift in Sources */,
 				908312942BA3DFC200F105F0 /* HomeView.swift in Sources */,
+				9051D5C02CE06D8300414D61 /* SettingsView.swift in Sources */,
 				908312922BA3DFC200F105F0 /* EnterPhoneNumberView.swift in Sources */,
+				9051D5BE2CE069F200414D61 /* CustomTabViewBar.swift in Sources */,
 				908312982BA3DFC200F105F0 /* Api.swift in Sources */,
 				9048F9AF2BA64B21004CEB2D /* RegisterView.swift in Sources */,
 				9083129D2BA3DFC200F105F0 /* UserModel.swift in Sources */,
